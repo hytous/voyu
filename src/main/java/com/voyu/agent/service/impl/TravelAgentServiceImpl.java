@@ -1,16 +1,13 @@
 package com.voyu.agent.service.impl;
 
 import com.voyu.agent.model.agent.AgentEventType;
+import com.voyu.agent.model.agent.AgentMode;
 import com.voyu.agent.model.agent.ConversationState;
-import com.voyu.agent.model.agent.TaskBook;
-import com.voyu.agent.model.agent.TaskExecutionResult;
 import com.voyu.agent.model.api.TravelChatRequest;
 import com.voyu.agent.service.TravelAgentService;
-import com.voyu.agent.service.agent.ExecuteAgent;
 import com.voyu.agent.service.agent.ClarificationAgent;
-import com.voyu.agent.service.agent.LoopReviewAgent;
-import com.voyu.agent.service.agent.PlanAgent;
-import com.voyu.agent.service.agent.SummarizeAgent;
+import com.voyu.agent.service.agent.PlanFileService;
+import com.voyu.agent.service.agent.UnifiedReActAgent;
 import com.voyu.agent.service.history.ConversationHistoryService;
 import com.voyu.agent.service.memory.ConversationMemoryService;
 import com.voyu.agent.util.AgentEventPublisher;
@@ -35,37 +32,28 @@ public class TravelAgentServiceImpl implements TravelAgentService {
 
     private static final Logger log = LoggerFactory.getLogger(TravelAgentServiceImpl.class);
 
-    private final PlanAgent planAgent;
-    private final ExecuteAgent executeAgent;
+    private final UnifiedReActAgent unifiedReActAgent;
     private final ClarificationAgent clarificationAgent;
-    private final LoopReviewAgent loopReviewAgent;
-    private final SummarizeAgent summarizeAgent;
+    private final PlanFileService planFileService;
     private final ConversationHistoryService conversationHistoryService;
     private final ConversationMemoryService conversationMemoryService;
     private final Executor executor;
     private final long streamTimeoutMs;
-    private final int maxRounds;
 
-    public TravelAgentServiceImpl(PlanAgent planAgent,
-                                  ExecuteAgent executeAgent,
+    public TravelAgentServiceImpl(UnifiedReActAgent unifiedReActAgent,
                                   ClarificationAgent clarificationAgent,
-                                  LoopReviewAgent loopReviewAgent,
-                                  SummarizeAgent summarizeAgent,
+                                  PlanFileService planFileService,
                                   ConversationHistoryService conversationHistoryService,
                                   ConversationMemoryService conversationMemoryService,
                                   @Qualifier("agentExecutor") Executor executor,
-                                  @Value("${voyu.agent.stream-timeout-ms:300000}") long streamTimeoutMs,
-                                  @Value("${voyu.agent.max-rounds:5}") int maxRounds) {
-        this.planAgent = planAgent;
-        this.executeAgent = executeAgent;
+                                  @Value("${voyu.agent.stream-timeout-ms:300000}") long streamTimeoutMs) {
+        this.unifiedReActAgent = unifiedReActAgent;
         this.clarificationAgent = clarificationAgent;
-        this.loopReviewAgent = loopReviewAgent;
-        this.summarizeAgent = summarizeAgent;
+        this.planFileService = planFileService;
         this.conversationHistoryService = conversationHistoryService;
         this.conversationMemoryService = conversationMemoryService;
         this.executor = executor;
         this.streamTimeoutMs = streamTimeoutMs;
-        this.maxRounds = maxRounds;
     }
 
     @Override
@@ -77,6 +65,9 @@ public class TravelAgentServiceImpl implements TravelAgentService {
         request.setSessionId(sessionId);
 
         ConversationState state = new ConversationState(sessionId, request, 1);
+        // 默认从 PLAN 模式开始
+        state.setAgentMode(AgentMode.PLAN);
+
         conversationMemoryService.hydrateRequestContext(state);
         conversationHistoryService.initializeSession(state);
 
@@ -88,6 +79,7 @@ public class TravelAgentServiceImpl implements TravelAgentService {
 
         executor.execute(() -> {
             try {
+                // 加载会话记忆
                 state.setMemorySnapshot(conversationMemoryService.loadMemory(state));
                 publish(publisher, state, AgentEventType.THOUGHT, Map.of(
                         "phase", "ORCHESTRATOR",
@@ -95,6 +87,7 @@ public class TravelAgentServiceImpl implements TravelAgentService {
                 ));
                 publishMemory(publisher, state, "会话记忆已加载。");
 
+                // 澄清检查（保持不变）
                 ClarificationAgent.ClarificationDecision clarificationDecision = clarificationAgent.inspect(state);
                 if (clarificationDecision.shouldAsk()) {
                     publish(publisher, state, AgentEventType.THOUGHT, Map.of(
@@ -112,6 +105,7 @@ public class TravelAgentServiceImpl implements TravelAgentService {
                     return;
                 }
 
+                // RAG 增强
                 state.setMemorySnapshot(conversationMemoryService.ensureSessionRag(state));
                 publish(publisher, state, AgentEventType.THOUGHT, Map.of(
                         "phase", "RAG",
@@ -121,73 +115,15 @@ public class TravelAgentServiceImpl implements TravelAgentService {
                 ));
                 publishMemory(publisher, state, "会话级 RAG 增强知识已更新。");
 
+                // ========== 核心变更：统一 ReAct 循环 ==========
                 publish(publisher, state, AgentEventType.THOUGHT, Map.of(
                         "phase", "ORCHESTRATOR",
-                        "message", "进入 Plan-Execute 主循环。"
+                        "message", "进入统一 ReAct 循环（PLAN → EXECUTE）。"
                 ));
 
-                boolean completedByReview = false;
-                for (int round = 1; round <= maxRounds; round++) {
-                    state.setCurrentRound(round);
-                    publish(publisher, state, AgentEventType.THOUGHT, Map.of(
-                            "phase", "ORCHESTRATOR",
-                            "round", round,
-                            "message", "开始第 %s / %s 轮规划执行。".formatted(round, maxRounds)
-                    ));
+                String finalAnswer = unifiedReActAgent.run(state, publisher);
 
-                    if (!state.getLoopFocus().isBlank()) {
-                        publish(publisher, state, AgentEventType.THOUGHT, Map.of(
-                                "phase", "ORCHESTRATOR",
-                                "round", round,
-                                "message", "本轮补充重点：" + state.getLoopFocus()
-                        ));
-                    }
-
-                    TaskBook taskBook = planAgent.plan(state, publisher);
-                    state.getPlanThoughts().add(taskBook.getPlannerThought());
-                    state.getTaskBooks().add(taskBook);
-
-                    publish(publisher, state, AgentEventType.PLAN_DRAFT, Map.of(
-                            "round", round,
-                            "thought", taskBook.getPlannerThought()
-                    ));
-                    publish(publisher, state, AgentEventType.TASK_BOOK, Map.of(
-                            "round", round,
-                            "mission", taskBook.getMission(),
-                            "taskScript", taskBook.getTaskScript(),
-                            "tasks", taskBook.getTasks()
-                    ));
-
-                    List<TaskExecutionResult> roundResults = executeAgent.execute(taskBook, state, publisher);
-                    state.getExecutionResults().addAll(roundResults);
-
-                    LoopReviewAgent.LoopDecision decision = loopReviewAgent.review(state, taskBook, roundResults);
-                    state.getReviewThoughts().add(decision.thought());
-
-                    publish(publisher, state, AgentEventType.THOUGHT, Map.of(
-                            "phase", "LOOP_REVIEW",
-                            "round", round,
-                            "decision", decision.continueLoop() ? "CONTINUE" : "FINISH",
-                            "message", decision.thought()
-                    ));
-
-                    if (!decision.continueLoop()) {
-                        completedByReview = true;
-                        break;
-                    }
-
-                    state.setLoopFocus(decision.followUpFocus());
-                }
-
-                if (!completedByReview) {
-                    publish(publisher, state, AgentEventType.WARNING, Map.of(
-                            "phase", "ORCHESTRATOR",
-                            "round", state.getCurrentRound(),
-                            "message", "已达到最大循环次数，基于当前结果生成最终规划。"
-                    ));
-                }
-
-                String finalAnswer = summarizeAgent.summarize(state);
+                // 保存记忆和最终答案
                 conversationMemoryService.rememberFinalAnswer(state, finalAnswer);
                 conversationMemoryService.persistCompressedMemory(state, finalAnswer);
                 publish(publisher, state, AgentEventType.FINAL_ANSWER, Map.of(

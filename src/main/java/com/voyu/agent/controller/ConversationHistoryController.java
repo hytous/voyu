@@ -2,6 +2,7 @@ package com.voyu.agent.controller;
 
 import com.voyu.agent.model.history.ConversationSessionSummary;
 import com.voyu.agent.model.history.TravelConversationDocument;
+import com.voyu.agent.service.agent.PlanFileService;
 import com.voyu.agent.service.history.ConversationHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,17 @@ import java.util.List;
 public class ConversationHistoryController {
 
     private final ConversationHistoryService conversationHistoryService;
+    private final PlanFileService planFileService;
 
-    public ConversationHistoryController(ConversationHistoryService conversationHistoryService) {
+    public ConversationHistoryController(ConversationHistoryService conversationHistoryService,
+                                         PlanFileService planFileService) {
         this.conversationHistoryService = conversationHistoryService;
+        this.planFileService = planFileService;
     }
 
     @GetMapping
     public List<ConversationSessionSummary> listSessions(@RequestParam(required = false) String userId,
-                                                         @RequestParam(defaultValue = "20") int limit) {
+                                                          @RequestParam(defaultValue = "20") int limit) {
         return conversationHistoryService.listSessions(userId, limit);
     }
 
@@ -46,7 +50,10 @@ public class ConversationHistoryController {
 
     @DeleteMapping("/{sessionId}")
     public ResponseEntity<Void> deleteSession(@PathVariable String sessionId) {
-        return conversationHistoryService.deleteSession(sessionId)
+        boolean deleted = conversationHistoryService.deleteSession(sessionId);
+        // 同步清理关联的 plan 文件，避免孤立文件
+        planFileService.deletePlanFile(sessionId);
+        return deleted
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

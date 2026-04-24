@@ -9,5 +9,8 @@ public enum AgentEventType {
     TOOL_CALL,
     TOOL_RESULT,
     WARNING,
-    FINAL_ANSWER
+    FINAL_ANSWER,
+    MODE_SWITCH,
+    PLAN_FILE,
+    STEP_REMINDER
 }

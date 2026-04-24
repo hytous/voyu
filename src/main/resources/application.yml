@@ -36,8 +36,9 @@ server:
 
 voyu:
   agent:
-    max-rounds: 5
-    max-react-steps: 5
+    max-react-steps: 20
+    step-reminder-interval: 5
+    plan-dir: data/plans
     max-task-attempts: 3
     max-parallelism: 4
     stream-timeout-ms: 300000

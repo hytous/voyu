@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @deprecated 该类已被 {@link UnifiedReActAgent} 替代。
+ * 循环控制逻辑已融入统一 ReAct 循环的 LLM 决策中。
+ */
+@Deprecated(since = "2.0", forRemoval = true)
 @Component
 public class LoopReviewAgent {
 

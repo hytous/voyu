@@ -30,6 +30,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * @deprecated 该类已被 {@link UnifiedReActAgent} 替代。
+ * Plan 逻辑已合并到统一 ReAct 循环中，不再作为独立的 Plan Agent 使用。
+ */
+@Deprecated(since = "2.0", forRemoval = true)
 @Component
 public class PlanAgent {
 
