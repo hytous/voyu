@@ -71,6 +71,9 @@ public class ConversationMemoryService {
         List<TravelConversationDocument> relatedDocuments = findRelatedDocuments(state);
         TravelConversationDocument currentDocument = repository.findById(state.getSessionId()).orElse(null);
 
+        // Clear in-memory chat window for this session before re-seeding
+        // to prevent stale messages from previous requests accumulating
+        chatMemory.clear(state.getSessionId());
         seedChatMemory(state.getSessionId(), currentDocument, state.getRequest().getMessage());
         if (StringUtils.hasText(state.getRequest().getMessage())) {
             chatMemory.add(state.getSessionId(), new UserMessage(state.getRequest().getMessage()));
@@ -200,15 +203,15 @@ public class ConversationMemoryService {
         List<TravelConversationDocument> related = new ArrayList<>();
         repository.findById(state.getSessionId()).ifPresent(related::add);
 
-        String userId = state.getRequest().getUserId();
-        if (!StringUtils.hasText(userId)) {
-            return related;
-        }
-
-        repository.findTop5ByUserIdAndSessionIdNotOrderByUpdatedAtDesc(userId, state.getSessionId())
-                .stream()
-                .limit(maxHistorySessions)
-                .forEach(related::add);
+        // 暂时禁用跨 session 历史查询，避免 session 之间记忆串扰
+        // String userId = state.getRequest().getUserId();
+        // if (!StringUtils.hasText(userId)) {
+        //     return related;
+        // }
+        // repository.findTop5ByUserIdAndSessionIdNotOrderByUpdatedAtDesc(userId, state.getSessionId())
+        //         .stream()
+        //         .limit(maxHistorySessions)
+        //         .forEach(related::add);
         return related;
     }
 

@@ -87,7 +87,6 @@
                             </div>
                         </div>
                         <form class="brief-form" id="travelForm">
-                            <p class="composer-hint">直接用自然语言继续对话即可。目的地、天数、预算、偏好会优先从聊天内容与历史上下文中抽取；出发地保留为可选快捷字段。</p>
                             <label>
                                 <span>出发地（可选）</span>
                                 <input id="departureInput" name="departure" type="text" placeholder="上海">
@@ -162,16 +161,25 @@
                         <div class="task-board" id="taskBoard"></div>
                     </section>
 
-                    <!-- 5. 检索依据 ──────────────────────────────── -->
+                    <!-- 5. RAG 检索依据（合并面板）──────────────────── -->
                     <section class="panel" id="knowledgePanel">
                         <div class="panel-head">
                             <div>
-                                <p class="eyebrow">Knowledge Hits</p>
+                                <p class="eyebrow">Knowledge & RAG</p>
                                 <h3>检索依据</h3>
                             </div>
                         </div>
                         <div class="knowledge-list" id="knowledgeList">
                             <div class="empty-state">当本轮会话触发 RAG 后，这里会展示命中的知识片段。</div>
+                        </div>
+                        <div class="panel-head" style="margin-top:14px;">
+                            <div>
+                                <p class="eyebrow">Session RAG Cache</p>
+                                <h3>会话 RAG 缓存</h3>
+                            </div>
+                        </div>
+                        <div class="knowledge-list" id="ragSummaryList">
+                            <div class="empty-state">本会话还没有注入 RAG 记忆。</div>
                         </div>
                     </section>
 
@@ -208,7 +216,6 @@
                         <div id="memorySummaryBody"></div>
                         <div id="preferenceMemoryBody"></div>
                         <div id="memoryHighlightsList"></div>
-                        <div id="ragSummaryList"></div>
                         <!-- 已移除的面板 DOM id 存根，供 app.js 安全写入 -->
                         <div id="userBrief"></div>
                         <div id="requestMetaChips"></div>

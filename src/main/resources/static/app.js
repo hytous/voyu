@@ -1,6 +1,6 @@
 const SESSION_USER_ID = "voyu-qt";
 const SESSION_LIMIT = 30;
-const REASONING_EVENT_TYPES = new Set(["THOUGHT", "PLAN_DRAFT", "TASK_BOOK", "TOOL_CALL", "WARNING"]);
+const REASONING_EVENT_TYPES = new Set(["THOUGHT", "PLAN_DRAFT", "TASK_BOOK", "TOOL_CALL", "WARNING", "MODE_SWITCH", "STEP_REMINDER"]);
 
 const EVENT_LABELS = {
     THOUGHT: "主循环思考",
@@ -11,6 +11,10 @@ const EVENT_LABELS = {
     TOOL_RESULT: "工具结果",
     WARNING: "异常告警",
     FINAL_ANSWER: "最终方案",
+    MEMORY: "记忆加载",
+    MODE_SWITCH: "模式切换",
+    STEP_REMINDER: "步数提醒",
+    PLAN_FILE: "计划文件",
 };
 
 const TOOL_LABELS = {
@@ -361,6 +365,7 @@ async function handleSubmit(event) {
     renderCurrentSession();
     renderSidebar();
     scrollConversationTop();
+    elements.messageInput.value = "";
     await streamTravelPlan(payload);
 }
 
@@ -599,6 +604,14 @@ function applyEventState(session, event, options = {}) {
             if (payload.taskId) {
                 session.taskStatuses[payload.taskId] = payload.status || "UNKNOWN";
             }
+            // Also match by toolName: update any task in taskBook that uses this tool
+            if (payload.toolName && session.taskBook) {
+                safeArray(session.taskBook.tasks).forEach((task) => {
+                    if (task.toolName === payload.toolName && task.taskId) {
+                        session.taskStatuses[task.taskId] = payload.status || "UNKNOWN";
+                    }
+                });
+            }
             if (syncMessages) {
                 syncPendingAssistantMessage(session, progressTextForEvent(normalized));
             }
@@ -619,6 +632,55 @@ function applyEventState(session, event, options = {}) {
             }
             if (syncMessages) {
                 syncPendingAssistantMessage(session, progressTextForEvent(normalized));
+            }
+            break;
+        case "MEMORY":
+            // Populate session RAG data from MEMORY events
+            if (safeArray(payload.rag).length > 0) {
+                session.rag = payload.rag;
+            }
+            if (hasText(payload.ragQuery)) {
+                session.ragQuery = payload.ragQuery;
+            }
+            if (hasText(payload.ragRewrittenQuery)) {
+                session.ragRewrittenQuery = payload.ragRewrittenQuery;
+            }
+            if (safeArray(payload.ragRecognizedDestinations).length > 0) {
+                session.ragRecognizedDestinations = payload.ragRecognizedDestinations;
+            }
+            if (payload.ragInitialized !== undefined) {
+                session.ragInitialized = payload.ragInitialized;
+            }
+            if (payload.ragCleared !== undefined) {
+                session.ragCleared = payload.ragCleared;
+            }
+            if (hasText(payload.sessionSummary)) {
+                session.memorySummary = payload.sessionSummary;
+            }
+            if (hasText(payload.preferenceSummary)) {
+                session.preferenceMemory = payload.preferenceSummary;
+            }
+            if (syncMessages) {
+                syncPendingAssistantMessage(session, progressTextForEvent(normalized));
+            }
+            break;
+        case "MODE_SWITCH":
+            session.status = "RUNNING";
+            if (syncMessages) {
+                syncPendingAssistantMessage(session, progressTextForEvent(normalized));
+                const toMode = payload.to || "EXECUTE";
+                setStreamStatus("busy", toMode === "EXECUTE" ? "执行中" : "规划中");
+            }
+            break;
+        case "STEP_REMINDER":
+            if (syncMessages) {
+                syncPendingAssistantMessage(session, progressTextForEvent(normalized));
+            }
+            break;
+        case "PLAN_FILE":
+            if (syncMessages) {
+                syncPendingAssistantMessage(session, progressTextForEvent(normalized));
+                setStreamStatus("busy", "执行中");
             }
             break;
         case "FINAL_ANSWER":

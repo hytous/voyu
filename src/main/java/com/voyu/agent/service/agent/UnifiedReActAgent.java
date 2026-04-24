@@ -2,6 +2,7 @@ package com.voyu.agent.service.agent;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import com.voyu.agent.model.agent.AgentEventType;
 import com.voyu.agent.model.agent.AgentMode;
 import com.voyu.agent.model.agent.ConversationMemorySnapshot;
@@ -77,6 +78,11 @@ public class UnifiedReActAgent {
         this.planFileService = planFileService;
         this.maxReactSteps = maxReactSteps;
         this.stepReminderInterval = Math.max(stepReminderInterval, 2);
+    }
+
+    @PostConstruct
+    void logConfig() {
+        log.info("[UnifiedReActAgent] maxReactSteps={}, stepReminderInterval={}", maxReactSteps, stepReminderInterval);
     }
 
     /**
@@ -230,11 +236,14 @@ public class UnifiedReActAgent {
         }
 
         // 达到最大步数，使用已有结果生成答案
+        log.warn("ReAct loop exhausted: actualStep={}, maxReactSteps={}, mode={}",
+                state.getReactStep(), maxReactSteps, state.getAgentMode());
         publishSafely(publisher, state, AgentEventType.WARNING, payload(
                 "phase", "REACT",
                 "agentMode", state.getAgentMode().name(),
                 "step", state.getReactStep(),
-                "message", "ReAct 循环已达最大步数 %s，基于当前结果生成最终答案。".formatted(maxReactSteps)
+                "maxSteps", maxReactSteps,
+                "message", "ReAct 循环已达最大步数 %s（实际执行 %s 步），基于当前结果生成最终答案。".formatted(maxReactSteps, state.getReactStep())
         ));
         return generateFallbackSummary(state);
     }
@@ -249,16 +258,45 @@ public class UnifiedReActAgent {
 
         String llmResult = llmFacade.complete(systemPrompt, userPrompt);
         if (llmResult != null && !llmResult.isBlank()) {
+            String sanitized = sanitizeJsonPayload(llmResult);
             try {
-                Map<String, Object> parsed = objectMapper.readValue(sanitizeJsonPayload(llmResult),
+                Map<String, Object> parsed = objectMapper.readValue(sanitized,
                         new TypeReference<Map<String, Object>>() {});
                 return toDecision(parsed, state);
             } catch (Exception ex) {
-                log.warn("Failed to parse ReAct step {}, falling back to deterministic logic", step, ex);
+                log.warn("Failed to parse ReAct step {} JSON. Raw (first 300): {}. Error: {}",
+                        step, clip(llmResult, 300), ex.getMessage());
+                // Try to extract embedded JSON from non-standard output
+                ReActDecision extracted = tryExtractDecisionFromText(llmResult, state);
+                if (extracted != null) {
+                    return extracted;
+                }
             }
+        } else {
+            log.warn("LLM returned null/blank at step {} (mode={}), using fallback", step, state.getAgentMode());
         }
 
         return fallbackDecision(state, step);
+    }
+
+    /**
+     * When LLM output is not pure JSON, try to find the first { ... } block.
+     */
+    private ReActDecision tryExtractDecisionFromText(String rawText, ConversationState state) {
+        int firstBrace = rawText.indexOf('{');
+        int lastBrace = rawText.lastIndexOf('}');
+        if (firstBrace >= 0 && lastBrace > firstBrace) {
+            String candidate = rawText.substring(firstBrace, lastBrace + 1);
+            try {
+                Map<String, Object> parsed = objectMapper.readValue(candidate,
+                        new TypeReference<Map<String, Object>>() {});
+                log.info("Successfully extracted JSON from non-standard LLM output");
+                return toDecision(parsed, state);
+            } catch (Exception ignored) {
+                // extraction also failed
+            }
+        }
+        return null;
     }
 
     // ======== System Prompts（参考 Claude Code plan mode 风格）========
@@ -267,53 +305,58 @@ public class UnifiedReActAgent {
         return """
                 你是旅游规划助手，当前处于 **PLAN 模式**（规划模式）。
 
+                ## 核心规则
+                PLAN 模式的唯一目标是：**制定工具调用计划（任务书）**，然后输出 FINISH_PLAN。
+                你不需要在 PLAN 阶段亲自调用业务工具获取数据。工具会在后续 EXECUTE 阶段由系统逐项执行。
+                PLAN 阶段你只需要决定：调用哪些工具、按什么顺序、传什么参数。
+
                 ## 你在 PLAN 模式下的职责
-                你正在为后续的执行阶段做准备。你需要：
                 1. 分析用户需求，理解目的地、天数、预算、偏好等关键约束
-                2. 调用只读工具收集必要事实（天气、POI、路线等）
-                3. 制定一份清晰的工具执行计划（任务书），包含要调用的工具、执行顺序和输入参数
-                4. 当你认为信息足够时，选择 FINISH_PLAN 输出任务书并进入执行模式
+                2. 查看可用工具目录（tool.catalog），了解每个工具的功能和参数要求
+                3. 根据需求和工具能力，制定一份结构化的工具执行计划（任务书）
+                4. 任务书制定完成后，选择 FINISH_PLAN 输出，系统将进入 EXECUTE 模式逐项执行
 
                 ## 可用动作
-                1. **CALL_TOOL** — 调用一个工具收集事实
-                2. **FINISH_PLAN** — 输出最终任务书，生成 plan.md 文件，退出 PLAN 模式进入 EXECUTE 模式
+                1. **CALL_TOOL** — 仅限调用 tool.catalog 查看工具目录，或 memory.rag.clear 清除过时 RAG。不要在 PLAN 中调用其他业务工具。
+                2. **FINISH_PLAN** — 输出最终任务书，退出 PLAN 模式进入 EXECUTE 模式。这是 PLAN 模式的正常结束方式。
 
-                ## 内置伪工具
-                - `tool.catalog` — 查看当前可用工具目录
-
-                ## 输出 JSON 格式（不要输出 markdown 或解释文字）
-                ```json
+                ## 输出 JSON 格式（直接输出 JSON，不要输出 markdown 包裹或解释文字）
                 {
-                  "thought": "你的思考过程",
+                  "thought": "你的思考过程：分析用户需求并决定需要哪些工具",
                   "action": {
-                    "type": "CALL_TOOL | FINISH_PLAN",
-                    "toolName": "工具名称（CALL_TOOL 时）",
+                    "type": "CALL_TOOL 或 FINISH_PLAN",
+                    "toolName": "工具名称（仅 CALL_TOOL 时需要）",
                     "input": {}
                   },
-                  "plannerThought": "仅 FINISH_PLAN 时填写：可完成性：...；格式校验：...；执行意图：...",
-                  "mission": "仅 FINISH_PLAN 时填写：任务书使命描述",
+                  "plannerThought": "仅 FINISH_PLAN 时填写：可完成性、格式校验、执行意图",
+                  "mission": "仅 FINISH_PLAN 时填写：本次旅游规划的总目标",
                   "tasks": [
                     {
                       "taskId": "t1",
                       "name": "任务名称",
-                      "objective": "任务目标",
-                      "toolName": "工具名称",
+                      "objective": "这个工具调用要达成什么目标",
+                      "toolName": "具体工具名称",
                       "batchIndex": 1,
-                      "input": {}
+                      "input": { "具体参数": "值" }
                     }
                   ]
                 }
-                ```
 
-                ## 规划原则
-                - 所有业务工具都是可选的，由你根据用户需求自主决定是否调用
-                - RAG 增强知识已在记忆上下文的 rag[] 中预注入，默认不要把 rag.travel.knowledge 写入任务书
-                - 只有当 rag[] 缺失或不相关时，才在任务书中安排 rag.travel.knowledge
-                - 当你已有足够信息时，必须选择 FINISH_PLAN，不要无限调用工具
-                - 任务书的 tasks 必须包含结构化任务，不能只给自然语言段落
-                - batchIndex 表示串行阶段，同一 batchIndex 内的任务会自动并行
-                - 如果你判断 rag[] 已经过时或会误导任务，可以调用 memory.rag.clear 清除
-                - 可用工具名称：%s
+                ## 任务书设计原则
+                - tasks 数组中的每个任务对应 EXECUTE 阶段的一次工具调用
+                - batchIndex 表示串行阶段编号。同一 batchIndex 的任务会并行执行，不同 batchIndex 按顺序串行
+                - 每个 task 的 input 应包含该工具所需的全部参数，参数值从用户需求和上下文中提取
+                - 根据旅游规划需要合理安排工具（天气查询、POI搜索、路线规划、网页搜索等）
+                - 只安排用户需求真正需要的工具，不要为了全面而堆砌
+                - RAG 知识已在 rag[] 中预注入，除非缺失或不相关，否则不安排 rag.travel.knowledge
+                - 如果 rag[] 过时，可先 CALL_TOOL memory.rag.clear 清除，再 FINISH_PLAN
+
+                ## 典型流程
+                Step 1: CALL_TOOL tool.catalog -> 了解可用工具及其参数
+                Step 2: FINISH_PLAN -> 根据用户需求和可用工具制定任务书
+
+                ## 可用工具名称（详细信息通过 tool.catalog 获取）
+                %s
                 """.formatted(formatToolNameOptions());
     }
 
@@ -322,41 +365,47 @@ public class UnifiedReActAgent {
                 你是旅游规划助手，当前处于 **EXECUTE 模式**（执行模式）。
 
                 ## 你在 EXECUTE 模式下的职责
-                你正在根据之前制定的计划执行工具调用。你需要：
-                1. 按照任务书中的计划逐项执行工具
-                2. 根据工具返回结果判断是否需要补充调用
-                3. 当所有必要信息收集完毕后，输出最终的旅游规划方案
+                你正在根据 PLAN 阶段制定的任务书，逐项调用工具收集事实，最后综合所有工具返回的真实数据生成旅游规划方案。
+
+                ## 执行流程
+                1. 查看任务书中还有哪些工具未执行（参考 Scratchpad 和已成功覆盖工具列表）
+                2. 逐项 CALL_TOOL 执行任务书中的工具（一次选一个）
+                3. 如果工具调用失败，可以调整参数重试或跳过继续下一个
+                4. 如果所有工具执行后仍缺少关键信息，可以补充调用额外工具
+                5. 当所有必要数据收集完毕后，选择 FINISH 综合所有工具结果输出最终方案
+
+                ## 重要：不要过早 FINISH
+                - 必须先执行任务书中的工具（至少尝试调用每个工具一次），然后才能 FINISH
+                - 只有在对已收集的数据有足够信心时才选择 FINISH
 
                 ## 可用动作
-                1. **CALL_TOOL** — 调用一个工具
-                2. **FINISH** — 输出最终旅游规划方案给用户
+                1. **CALL_TOOL** — 调用一个工具并获取结果
+                2. **FINISH** — 综合所有已收集的数据，输出最终旅游规划方案
 
-                ## 输出 JSON 格式（不要输出 markdown 或解释文字）
-                ```json
+                ## 输出 JSON 格式（直接输出 JSON，不要输出 markdown 包裹或解释文字）
                 {
-                  "thought": "你的思考过程",
+                  "thought": "当前要执行任务书中的哪个工具、为什么",
                   "action": {
-                    "type": "CALL_TOOL | FINISH",
+                    "type": "CALL_TOOL 或 FINISH",
                     "toolName": "工具名称（CALL_TOOL 时）",
-                    "input": {}
+                    "input": { "参数": "值" }
                   },
-                  "answer": "仅 FINISH 时填写：最终旅游规划方案（markdown 格式）"
+                  "answer": "仅 FINISH 时填写：基于工具返回数据综合的最终旅游规划方案（markdown 格式）"
                 }
-                ```
 
-                ## 最终答案要求
-                当你选择 FINISH 时，answer 字段应包含完整的旅游规划方案：
-                1. 行程概览
-                2. 每日安排建议
-                3. 风险与备选方案
-                4. 预算/交通提示
-                5. 依据与说明
+                ## 最终答案要求（FINISH 时的 answer 字段）
+                必须包含以下结构，且内容需基于工具返回的真实数据：
+                1. **行程概览** — 总天数、核心目的地、主题
+                2. **每日安排建议** — 每天的景点、餐饮、交通建议
+                3. **风险与备选方案** — 天气风险、备选景点
+                4. **预算/交通提示** — 费用估算、出行方式
+                5. **依据与说明** — 引用具体工具返回的数据作为支撑
 
                 ## 执行原则
                 - 使用自然、专业、面向用户的中文 markdown
                 - 若工具结果是启发式或占位信息，明确写成建议而非实时事实
-                - 如果某些事实仍不足，明确列出缺口和建议补充方式
-                - 不要提及系统内部实现细节
+                - 如果某些事实仍不足，在方案中明确列出缺口
+                - 不要提及系统内部实现细节（如 tool.catalog、任务书、ReAct 步数等）
                 - 可用工具名称：%s
                 """.formatted(formatToolNameOptions());
     }
@@ -626,27 +675,23 @@ public class UnifiedReActAgent {
     }
 
     private ReActDecision fallbackPlanDecision(ConversationState state, int step) {
-        // 第一步先看工具目录
-        if (step == 1) {
+        // PLAN fallback: check if tool.catalog was already seen, not step-number based
+        boolean hasSeenCatalog = state.getExecutionResults().stream()
+                .anyMatch(r -> TOOL_CATALOG.equals(r.getToolName()) && r.isSuccess());
+
+        if (!hasSeenCatalog) {
             return new ReActDecision(
-                    "先读取工具目录，确认当前可用的工具。",
+                    "[fallback] 先读取工具目录，了解可用工具及参数。",
                     "CALL_TOOL", TOOL_CATALOG, Map.of(), "", "", List.of(), "");
         }
 
-        // 第二步获取用户画像
-        if (step == 2 && toolRegistry.hasTool("profile.lookup")) {
-            return new ReActDecision(
-                    "收集用户画像信息，为后续规划做准备。",
-                    "CALL_TOOL", "profile.lookup", Map.of(), "", "", List.of(), "");
-        }
-
-        // 第三步之后直接生成任务书
+        // Already seen catalog, generate task book
         TaskBook fallback = buildFallbackTaskBook(state);
         List<Map<String, Object>> taskMaps = fallback.getTasks().stream()
                 .map(this::mapTaskToRaw)
                 .toList();
         return new ReActDecision(
-                "已收集足够信息，开始输出工具执行计划。",
+                "[fallback] 根据可用工具和用户需求生成工具执行计划。",
                 "FINISH_PLAN", "", Map.of(),
                 fallback.getMission(),
                 fallback.getPlannerThought(),
@@ -654,26 +699,36 @@ public class UnifiedReActAgent {
     }
 
     private ReActDecision fallbackExecuteDecision(ConversationState state, int step) {
-        // 检查任务书中还有未执行的工具
-        Set<String> completedTools = state.getExecutionResults().stream()
+        // Track which tools have been successfully executed
+        Set<String> successfulToolNames = state.getExecutionResults().stream()
                 .filter(TaskExecutionResult::isSuccess)
                 .map(TaskExecutionResult::getToolName)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
+        // Find the first unfinished tool in the task book
         for (TaskBook taskBook : state.getTaskBooks()) {
             for (TaskItem task : taskBook.getTasks()) {
-                if (!completedTools.contains(task.getToolName()) && toolRegistry.hasTool(task.getToolName())) {
+                if (!successfulToolNames.contains(task.getToolName()) && toolRegistry.hasTool(task.getToolName())) {
+                    // Skip tools that have failed too many times
+                    long failCount = state.getExecutionResults().stream()
+                            .filter(r -> task.getToolName().equals(r.getToolName()) && !r.isSuccess())
+                            .count();
+                    if (failCount >= 2) {
+                        log.info("[fallback] Skipping tool {} after {} failures", task.getToolName(), failCount);
+                        continue;
+                    }
                     return new ReActDecision(
-                            "按任务书执行下一个未完成工具：" + task.getToolName(),
+                            "[fallback] 按任务书执行下一个未完成工具：" + task.getToolName(),
                             "CALL_TOOL", task.getToolName(), task.getInput(),
                             "", "", List.of(), "");
                 }
             }
         }
 
-        // 所有任务都已完成或无任务，生成最终答案
+        // All tools done or skipped
+        log.info("[fallback] All planned tools executed (successful: {}), generating final answer", successfulToolNames);
         return new ReActDecision(
-                "所有计划内工具已执行完毕，生成最终旅游规划方案。",
+                "[fallback] 所有计划内工具已执行完毕，生成最终旅游规划方案。",
                 "FINISH", "", Map.of(), "", "", List.of(),
                 generateFallbackSummary(state));
     }
@@ -1002,11 +1057,21 @@ public class UnifiedReActAgent {
 
     private String sanitizeJsonPayload(String raw) {
         String trimmed = raw.trim();
+        // Remove markdown code fences
         if (trimmed.startsWith("```")) {
-            trimmed = trimmed.replaceFirst("^```(?:json)?\\s*", "");
-            trimmed = trimmed.replaceFirst("\\s*```$", "");
+            trimmed = trimmed.replaceFirst("^```(?:json)?\\s*\\n?", "");
+            trimmed = trimmed.replaceFirst("\\n?\\s*```\\s*$", "");
         }
-        return trimmed.trim();
+        trimmed = trimmed.trim();
+        // If doesn't start with {, try to find JSON block
+        if (!trimmed.startsWith("{") && trimmed.contains("{")) {
+            int braceStart = trimmed.indexOf('{');
+            int braceEnd = trimmed.lastIndexOf('}');
+            if (braceStart >= 0 && braceEnd > braceStart) {
+                trimmed = trimmed.substring(braceStart, braceEnd + 1);
+            }
+        }
+        return trimmed;
     }
 
     private String sanitizeToolName(String value) {
