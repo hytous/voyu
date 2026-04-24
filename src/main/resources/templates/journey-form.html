@@ -1,0 +1,129 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Voyu | 新建旅程</title>
+</head>
+<body>
+<main class="page-shell">
+    <section class="hero-panel">
+        <div class="hero-copy">
+            <p class="eyebrow">Plan-Execute Travel Workflow</p>
+            <h1>把一次旅行需求拆成任务书，再把任务书执行成真正可用的行程方案。</h1>
+            <p class="hero-text">
+                这不是通用聊天窗口。Voyu 会先识别你的出行意图，再并发调用天气、POI、RAG 与预算校验工具，
+                通过流式过程页展示思考链路，最终沉淀为一份结构化旅行方案。
+            </p>
+            <div class="hero-points">
+                <span>ReAct Plan / Execute</span>
+                <span>Milvus + Elasticsearch 双路 RAG</span>
+                <span>SSE 推理过程可视化</span>
+            </div>
+        </div>
+        <div class="hero-aside">
+            <p class="eyebrow">Journey Flow</p>
+            <ol class="flow-list">
+                <li>填写旅程 brief</li>
+                <li>生成 TaskBook 并拆分并行任务</li>
+                <li>实时查看工具执行与知识命中</li>
+                <li>输出整理后的路线与建议</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="content-grid">
+        <section class="section-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Trip Brief</p>
+                    <h2>发起新的旅行规划</h2>
+                </div>
+                <p class="section-note">沿用 `tripper` 的表单式入口，但映射到 Voyu 当前的 Spring AI agent 能力。</p>
+            </div>
+
+            <form action="/travel/journey/plan" method="post" th:object="${travelBrief}" class="journey-form">
+                <input type="hidden" th:field="*{sessionId}">
+                <input type="hidden" th:field="*{userId}">
+
+                <label class="field field-span-2">
+                    <span>旅行目标</span>
+                    <textarea id="message" th:field="*{message}" rows="5"
+                              placeholder="例如：端午从上海去大阪 4 天，预算 7000，希望兼顾动漫、美食和轻松步行，尽量避免太赶。"></textarea>
+                </label>
+
+                <div class="field-grid">
+                    <label class="field">
+                        <span>目的地</span>
+                        <input id="destination" type="text" th:field="*{destination}" placeholder="大阪 / 东京 / 京都">
+                    </label>
+                    <label class="field">
+                        <span>出发地</span>
+                        <input id="departure" type="text" th:field="*{departure}" placeholder="上海">
+                    </label>
+                    <label class="field">
+                        <span>行程天数</span>
+                        <input id="travelDays" type="text" th:field="*{travelDays}" placeholder="4 天">
+                    </label>
+                    <label class="field">
+                        <span>预算</span>
+                        <input id="budget" type="text" th:field="*{budget}" placeholder="7000">
+                    </label>
+                </div>
+
+                <label class="field field-span-2">
+                    <span>偏好与约束</span>
+                    <input id="preferences" type="text" th:field="*{preferences}"
+                           placeholder="动漫、美食、慢节奏、少折返、步行友好">
+                </label>
+
+                <div class="form-actions">
+                    <button class="primary-button" type="submit">开始生成旅程</button>
+                    <a class="ghost-button" href="/api/travel-agent/health" target="_blank" rel="noopener noreferrer">检查 Agent 健康</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="stack-column">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Templates</p>
+                        <h2>快速套用模板</h2>
+                    </div>
+                </div>
+                <div class="template-list">
+                    <button type="button"
+                            class="template-card"
+                            th:each="card : ${templateCards}"
+                            data-template-fill="true"
+                            th:attr="data-message=${card.message},
+                                     data-destination=${card.destination},
+                                     data-departure=${card.departure},
+                                     data-travel-days=${card.travelDays},
+                                     data-budget=${card.budget},
+                                     data-preferences=${card.preferences}">
+                        <strong th:text="${card.title}"></strong>
+                        <span th:text="${card.message}"></span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">What You See</p>
+                        <h2>这套前端现在承接什么信息</h2>
+                    </div>
+                </div>
+                <ul class="detail-list">
+                    <li>处理中页面实时展示主循环思考、任务书、工具调用与知识命中。</li>
+                    <li>结果页按“规划策略 / 任务书 / 执行洞察 / 最终方案”重组会话历史。</li>
+                    <li>当前仍以最终 markdown 方案为主，`dayPlans` 等更细结构体可以作为下一阶段演进点。</li>
+                </ul>
+            </section>
+        </aside>
+    </section>
+
+    <script src="/journey-form.js"></script>
+</main>
+</body>
+</html>

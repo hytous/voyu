@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1560</width>
+    <height>960</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Voyu Desktop</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="rootLayout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>12</number>
+    </property>
+    <property name="topMargin">
+     <number>12</number>
+    </property>
+    <property name="rightMargin">
+     <number>12</number>
+    </property>
+    <property name="bottomMargin">
+     <number>12</number>
+    </property>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         顶栏：标题 + BaseURL 输入
+         ═══════════════════════════════════════════════════════════ -->
+    <item>
+     <widget class="QFrame" name="headerFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <layout class="QHBoxLayout" name="headerLayout">
+       <property name="leftMargin">
+        <number>16</number>
+       </property>
+       <property name="topMargin">
+        <number>8</number>
+       </property>
+       <property name="rightMargin">
+        <number>16</number>
+       </property>
+       <property name="bottomMargin">
+        <number>8</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="titleLayout">
+         <item>
+          <widget class="QLabel" name="eyebrowLabel">
+           <property name="text">
+            <string>Spring AI Travel Planner</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="titleLabel">
+           <property name="font">
+            <font>
+             <pointsize>15</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Voyu 桌面工作台</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="headerSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="baseUrlEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>320</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="placeholderText">
+          <string>http://175.178.47.238</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         主体：三栏水平 Splitter
+         ═══════════════════════════════════════════════════════════ -->
+    <item>
+     <widget class="QSplitter" name="mainSplitter">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+
+      <!-- ─────────────────────────────────────────────────────────
+           左栏 320px：品牌 / 新建 / 历史会话
+           ───────────────────────────────────────────────────────── -->
+      <widget class="QWidget" name="leftPanel">
+       <layout class="QVBoxLayout" name="leftPanelLayout">
+        <property name="spacing">
+         <number>12</number>
+        </property>
+        <property name="leftMargin">
+         <number>14</number>
+        </property>
+        <property name="topMargin">
+         <number>14</number>
+        </property>
+        <property name="rightMargin">
+         <number>14</number>
+        </property>
+        <property name="bottomMargin">
+         <number>14</number>
+        </property>
+
+        <!-- 品牌块 -->
+        <item>
+         <widget class="QFrame" name="brandFrame">
+          <property name="frameShape">
+           <enum>QFrame::Shape::StyledPanel</enum>
+          </property>
+          <layout class="QVBoxLayout" name="brandLayout">
+           <property name="leftMargin">
+            <number>14</number>
+           </property>
+           <property name="topMargin">
+            <number>14</number>
+           </property>
+           <property name="rightMargin">
+            <number>14</number>
+           </property>
+           <property name="bottomMargin">
+            <number>14</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="brandEyebrowLabel">
+             <property name="text">
+              <string>Travel Agent Workspace</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="brandTitleLabel">
+             <property name="text">
+              <string>Voyu</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 新建旅程 -->
+        <item>
+         <widget class="QPushButton" name="newJourneyButton">
+          <property name="text">
+           <string>新建旅程</string>
+          </property>
+         </widget>
+        </item>
+
+        <!-- 历史会话（含搜索框） -->
+        <item>
+         <widget class="QGroupBox" name="recentSessionsGroup">
+          <property name="title">
+           <string>历史会话</string>
+          </property>
+          <layout class="QVBoxLayout" name="recentSessionsLayout">
+           <item>
+            <widget class="QLineEdit" name="sessionSearchEdit">
+             <property name="placeholderText">
+              <string>搜索会话标题、目的地、状态</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="recentSessionsList"/>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="recentSessionButtonsLayout">
+             <item>
+              <widget class="QPushButton" name="loadSessionButton">
+               <property name="visible">
+                <bool>false</bool>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>加载会话</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="deleteSessionButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>删除会话</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="leftSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ─────────────────────────────────────────────────────────
+           中间列（fillWidth）：聊天记录（上） + 对话输入（下固定）
+           ───────────────────────────────────────────────────────── -->
+      <widget class="QScrollArea" name="centerScrollArea">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="centerScrollWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>800</width>
+          <height>900</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="centerLayout">
+         <property name="spacing">
+          <number>12</number>
+         </property>
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+
+         <!-- 聊天记录（stretch=4，随窗口拉伸） -->
+         <item>
+          <widget class="QGroupBox" name="conversationGroup">
+           <property name="title">
+            <string>聊天</string>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>4</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QVBoxLayout" name="conversationLayout">
+            <item>
+             <widget class="QListWidget" name="conversationList"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 对话输入（stretch=0，高度固定不超过 260px） -->
+         <item>
+          <widget class="QGroupBox" name="payloadGroup">
+           <property name="title">
+            <string>继续对话</string>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QFormLayout" name="payloadLayout">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="payloadHintLabel">
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>直接用自然语言继续对话即可。目的地、天数、预算、偏好等信息会优先从聊天内容和历史上下文中抽取；出发地保留为可选快捷字段。</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="departureLabel">
+              <property name="text">
+               <string>出发地（可选）</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="departureEdit"/>
+            </item>
+            <item row="2" column="0" colspan="2">
+             <widget class="QTextEdit" name="messageEdit">
+              <property name="placeholderText">
+               <string>例如：我想五一去大阪玩几天；或者：预算改到 7000，想多安排美食和轻松步行。</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <layout class="QHBoxLayout" name="payloadButtonsLayout">
+              <item>
+               <widget class="QPushButton" name="startPlanButton">
+                <property name="text">
+                 <string>发送消息</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="abortButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>中止流式任务</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+        </layout>
+       </widget>
+      </widget>
+
+      <!-- ─────────────────────────────────────────────────────────
+           右栏 420px：观察面板（从上到下）
+           ───────────────────────────────────────────────────────── -->
+      <widget class="QScrollArea" name="rightScrollArea">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="rightScrollWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>420</width>
+          <height>900</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="rightLayout">
+         <property name="spacing">
+          <number>12</number>
+         </property>
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+
+         <!-- 会话信息 -->
+         <item>
+          <widget class="QGroupBox" name="sessionGroup">
+           <property name="title">
+            <string>会话信息</string>
+           </property>
+           <layout class="QFormLayout" name="sessionLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="sessionIdLabel">
+              <property name="text">
+               <string>Session ID</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="sessionIdValueLabel">
+              <property name="text">
+               <string>未生成</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="sessionStatusLabel">
+              <property name="text">
+               <string>状态</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="sessionStatusValueLabel">
+              <property name="text">
+               <string>未开始</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="updatedAtLabel">
+              <property name="text">
+               <string>更新时间</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="updatedAtValueLabel">
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="errorLabel">
+              <property name="text">
+               <string>错误</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="errorValueLabel">
+              <property name="text">
+               <string>无</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 思考与推理 -->
+         <item>
+          <widget class="QGroupBox" name="reasoningGroup">
+           <property name="title">
+            <string>思考与推理</string>
+           </property>
+           <layout class="QVBoxLayout" name="reasoningLayout">
+            <item>
+             <widget class="QListWidget" name="reasoningList"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 任务书与执行（只展示最终任务书） -->
+         <item>
+          <widget class="QGroupBox" name="planGroup">
+           <property name="title">
+            <string>任务书与执行</string>
+           </property>
+           <layout class="QVBoxLayout" name="planLayout">
+            <item>
+             <widget class="QTreeWidget" name="taskTree">
+              <column>
+               <property name="text">
+                <string notr="true">1</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 检索依据 -->
+         <item>
+          <widget class="QGroupBox" name="knowledgeGroup">
+           <property name="title">
+            <string>检索依据</string>
+           </property>
+           <layout class="QVBoxLayout" name="knowledgeLayout">
+            <item>
+             <widget class="QListWidget" name="knowledgeList"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 事件时间线 -->
+         <item>
+          <widget class="QGroupBox" name="timelineGroup">
+           <property name="title">
+            <string>事件时间线</string>
+           </property>
+           <layout class="QVBoxLayout" name="timelineLayout">
+            <item>
+             <widget class="QListWidget" name="timelineList"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 中间件状态 -->
+         <item>
+          <widget class="QGroupBox" name="infraGroup">
+           <property name="title">
+            <string>中间件状态</string>
+           </property>
+           <layout class="QVBoxLayout" name="infraLayout">
+            <item>
+             <widget class="QTreeWidget" name="infraTree">
+              <column>
+               <property name="text">
+                <string notr="true">1</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+         <!-- 底部弹性间距 -->
+         <item>
+          <spacer name="rightSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+
+         <!-- finalAnswerGroup 保留但隐藏（代码中可能引用） -->
+         <item>
+          <widget class="QGroupBox" name="finalAnswerGroup">
+           <property name="visible">
+            <bool>false</bool>
+           </property>
+           <property name="title">
+            <string>最新助手回复</string>
+           </property>
+           <layout class="QVBoxLayout" name="finalAnswerLayout">
+            <item>
+             <widget class="QTextBrowser" name="finalAnswerBrowser"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+
+        </layout>
+       </widget>
+      </widget>
+
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

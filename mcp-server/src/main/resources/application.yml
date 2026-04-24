@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: voyu-mcp-server
+  ai:
+    mcp:
+      server:
+        name: voyu-external-tools
+        version: 0.0.1
+        protocol: STREAMABLE
+        type: SYNC
+        instructions: Local MCP server exposing Voyu external travel API tools.
+
+server:
+  port: 8091
+  address: 127.0.0.1
+
+voyu:
+  domestic:
+    amap:
+      api-key: ${AMAP_MAPS_API_KEY:375958c7f4d01c35da0dea63c196379d}
+    tencent-map:
+      api-key: ${TENCENT_MAP_API_KEY:WW5BZ-CIBWZ-U5DXM-ZTFM6-QLHVH-SNBHS}
+    bocha:
+      api-key: ${BOCHA_API_KEY:sk-06432bc334b64d14b363619c34264c6c}
+    seniverse:
+      public-key: ${SENIVERSE_PUBLIC_KEY:PPoUnGfCZx1kkeoep}
+      private-key: ${SENIVERSE_PRIVATE_KEY:SBnjI8G8zNRa-HV1A}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

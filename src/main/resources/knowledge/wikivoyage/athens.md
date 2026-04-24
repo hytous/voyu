@@ -1,0 +1,64 @@
+# Athens
+Chinese destination aliases: 雅典, Athens, Athens
+
+## Overview
+Athens (Greek: Αθήνα, Athína) is the capital city of Greece with a metropolitan population of 3.6 million inhabitants (2025) based on ELSTAT Census but with undocumented population it reaches 5.2 million. It was a major cultural, political and religious centre of Classical Greece, a place that deeply influenced the course of Western civilization. Don't come expecting a philosopher's theme park; contemporary Athens is the graffiti-coated, fast-beating urban heart of the country, where modern Greek culture, business and social life flourish amidst ancient monuments.
+
+## Districts
+Athens is the largest city in Greece, and sprawls across the majority of the Attica region. Most areas of interest to visitors will be found within the central Athens municipality. The following are the five main regions.
+
+Central Athens - The active heart of the city. Most ancient sites as well as museums can be found here.
+North Athens - A mainly residential area. Contains some museums, high end restaurants and malls, and activities.
+West Athens - Residential with some malls.
+Piraeus (Area) - Athens' main port. Location of National Library as well as some activities.
+South Athens - The location of most beaches accessible by public transport.
+
+## Get around
+Transport for Athens (OASA) operates public transportation in Athens. Its subdivisions include STASY and OSY. A single ticket allows you to travel on any types of transport, metro, trams, buses, with unlimited transfers anywhere time within Athens for 90 minutes.
+If you do not read Greek, signs on Athens transit always have a transliteration into Roman letters. Transliteration can vary; for example, Ellinko and Helliniko are both spellings for Ελληνικό. English information is abundant and most staff can communicate in English.
+
+## See
+At first glance, Athens seems entirely to be composed of unremarkable, four- to six-story concrete buildings, lacking character and badly in need of a paint job. But if you look beyond that, you will find little gems tucked in among the grey. The areas at the foot of the Acropolis, Anafiotika, Plaka, Monastiraki and Thissio are home to many wonderful Neoclassical buildings, trendy and traditional cafes and shops, narrow winding streets, and incredible views of the Acropolis. Little Greek Orthodox churches are tucked in among the concrete, often in the most unexpected places. These are usually beautifully decorated with icons and brass fixtures inside, but make sure you're appropriately dressed (no short sleeves or bare legs is a good rule of thumb, as a mark of respect).
+
+## Do
+If you're lucky enough to be in Athens for the Easter Weekend, you'll see the spectacular sight of hundreds of people making their candlelit way down the hill on Holy Saturday night as part of the Easter Vigil procession.
+If the weather is good, head to the beaches in south Athens. Take buses A2, B2 or E22 from metro station Sygrou, or the tram from Syntagma. Just get off wherever the sea takes your fancy. Beach-side cafes can hit you hard with prices of food and drinks. If you are the only person getting on the bus, you must flag the bus down to get it to stop or it will just fly on by. See the articles on Piraeus, Palaio Faliro and Vari-Voula-Vouliagmeni for more details.
+
+## Buy
+Although a huge city, Athens has relatively few shopping malls or large department stores; the small, family run shop still conquers all. Souvenirs are of course available everywhere that tourists go. Other shopping opportunities are antiques, museum reproductions, embroideries and other folk art goods, and Greek food and drink products.
+Plaka is lined with souvenir shops, most of them selling cheap souvenir knick-knacks, though there are a few higher-quality shops. Prices can be high for good quality items.
+
+Flea Market could refer to two places. The sign next to Monastiraki station at the beginning of Ifaistou Street claims that you are entering "the Flea Market of Athens." The street is lined with second-hand and surplus shops of every description. Few are of much interest to the visitor, though towards the west end of the street there are some interesting shops selling old books, posters, and Greek and other music recordings. The real Flea Market is held on Sunday mornings in Plateia Avissinia at the western end of Ifaistou Street. There is incredible assortment of used objects, antiques, and junk.
+Among all the souvenir and second-hand stores in the area, Martinos at 50 Pandrossou (☏ +30 210 321-3110) stands out as a genuine antique shop, offering top quality items from Greece and the Eastern Mediterranean. Prices are also top of the line, so this is a shop for knowledgeable antique buyers in the market to do some serious spending. Remember that taking antiques out of Greece and into your own country may be subject to the laws of both countries and be sure you're familiar with them before taking anything old home.
+Kolonaki is the upscale, hip, and artistic shopping area. Kolonaki offers the usual range of shops for an upscale neighbourhood; art galleries, hip clothing boutiques, and antique stores are common. The area is small and along with the small streets north of it, including Skoufa, Anagnostopoulou and the pedestrianized Tsakaloff, are ideal for simply wandering around. 1 Plateia Kolonaki(Kolonaki Square) There are also plenty of shops along Patriarchou Ioakim and Haritos streets and their cross streets.
+For a more reasonable price tag, try Ermou Street, beside Syntagma Square. Turn right off Ermou at the MAC makeup shop and you'll find yourself on Aghiou Markou and other small streets which have a wide range incredibly cheap shoes, bags, jewellery, gifts and homewares.
+Street vendors, with their wares laid out on blankets on the pavement, can be found in many places where tourists congregate, especially in Plaka and Monastiraki. Their goods are mostly forgeries, cheap knock-offs, and illegal CDs. A surprising number of them sell large collections of coins, most of them fairly modern, which may be of interest to the numismatically inclined, though anything especially antique is likely a reproduction. These vendors are unlicensed, which is in violation of Greek law, and you may notice them vanishing as soon as a policeman is in sight, to reappear the instant the police have gone. They are best ignored. (This warning doesn't apply to vendors of fruit, nuts, etc., from street carts, who are usually legitimate.)
+The main supermarket chains are Sklavenitis and Masoutis. Most Greek supermarkets are closed on Sundays. If you need to buy groceries on Sunday, you must find one of the rare exceptions which opens for business on Sunday, find a well-equipped convenience store, or simply do without groceries until Monday.
+
+## Eat
+The districts Kolonaki and Plaka are especially good areas for dining out.
+
+## Drink
+Greeks love to socialize, and Athens buzzes long after its other European counterparts have laid their heads down to sleep. 20:00 is the earliest most Greeks will consider going to eat out, and clubbers start to get ready at about midnight. Many Athens clubs relocate to the beach during the summer months. Cafes spill onto the streets and the sound of lively conversation is everywhere in the evenings.
+Go to the Psyrrí area (Monastiraki or Thissio station, Lines 1 and 3 and Line 1 respectively) for a number of smart bars and small clubs. It is the area immediately north of Ermou street between these two metro stops.
+There are more and better bars in the area north of Ermou street between Monastiraki and Syntagma than there used to be. Aiolou and Kolokotroni streets offer a fair variety of cafés and bars. Magazé, six dogs, Booze and all the bars on Karytsi square (a small square at the end of Christou Lada street, behind Klafthmonos square on Stadiou avenue) can get very busy on Fridays and Saturdays, with visitors having their drinks even on the streets outside from spring through autumn, when the weather is nice.
+The area around the Kerameikos station, called Gazi (Γκάζι, gas) has been the gay village of Athens for quite a few years. Since the opening of the metro station, in 2007, the neighbourhood has attracted all kinds of crowds. This is a home to dozens of bars, cafés and clubs, gay or not, and to small theatrical scenes, the latter one especially to the northeast of the area, towards Metaxourgeio.
+
+Balux, Vassileos Georgiou B No. 58 Asteria, Glyfada. One of the best bars in Athens for the specific style, to call it a bar is an understatement. Balux is large complex set right on the water in Glyfada, one of the trendiest areas of the city. It is open during the summer for swimming in the ocean or pool all day and turns into a lounge and full club at night. Where Athens' wealthy go to party. 
+The Plateia Exarcheia square and nearby streets like Solomou have lots of clubs and bars.
+
+## Sleep
+Athens has a wide variety of accommodation options, from camping and hostels, right up to 5 star luxury hotels.
+For most tourists, the primary question is Plaka or not Plaka. For the latter, the next question is whether to stay just outside of Plaka, or along one of the main routes going to the coast (e.g., Leoforos Andrea Siggrou is home to the Grand Hyatt, Marriott, and InterContinental hotels), or in one of the coastal suburbs like Glyfada or Piraeus. These latter options may allow for staying in more modern hotels or with a scenic coastal view, but then one has to travel to Plaka and back for sightseeing.
+For hotels near the airport, see listings in Spata and Rafina.
+
+## Stay safe
+Athens is generally a safe city. There are many police officers and security guards around the city. Many places have CCTV. Street crime is rare. Violent crime against tourists is rare.
+There are pickpockets on the Metro (especially at the interchanges with the line from the Airport), buses and in other crowded areas, including Plaka. You will notice that natives travel with their hands on their bags and pockets, and keep their bag in front rather than on their side or back, which unfortunately is not without reason. If any pocket, purse, or backpack is visible as you travel on the Metro, assume it will be targeted by pickpockets. Assume that any stranger on the Metro (no matter how well-dressed) is a potential pickpocket and take appropriate precautions. Beware of dense crowds at Metro vehicle doors, especially when a door seems to be broken or jammed. 
+The friendly stranger bar scam has been reported from areas of central Athens frequented by tourists, including Omonia, Syntagma, and Plaka. There have been some reports of fraud. Usually, someone will stop you and ask for directions. A couple of other men then arrive claiming to be police, showing a badge (obviously a fake one). They ask if you were getting drugs from the other man and then ask for your passport and wallet for verification. While you are busy trying to convince them that your passport is valid, one of them sneaks out some money from your wallet.
+
+Demonstrations and riots are common and accepted as part of everyday life and democracy by most Athenians. (You shouldn't expect any less from the cradle of democracy!) Keep abreast of news of demonstrations, and avoid them if you don't want to risk being arrested or tear-gassed, which often happens near Syntagma. Anarchist groups often clash with police, or target government buildings or perceived representations of capitalism during the night, mainly in Exarcheia (Εξάρχεια). It is unlikely that tourists would be harmed, as the anarchists usually take care to attack only property and police as opposed to civilians. However, parking in Exarcheia overnight could result in damage to your car. Anti-Israel pro-Palestine activities (such as graffiti) are common seen on the streets.
+The football rivalry between local club Panathinaikos and Piraeus-based Olympiacos is notoriously intense, and has on occasion resulted in violent confrontations between opposing fans. To be safe, avoid wearing Olympiacos shirts while you are in Athens, especially during matchday, or it could result in you being harassed or even singled out for violence by opposing fans.
+In the summer, the weather is very hot. Remember to drink enough water and apply sunscreen to your skin.
+Athens has poor urban planning, especially poor road planning. When walking around, the greatest danger is on streets where sidewalks/pavements are nonexistent or too narrow for pedestrians to pass each other. If a car or motorcycle comes around the corner too fast at that very second, someone may get run over. 
+In case of emergency, dial 112. This is the pan-European emergency number that connects to police, ambulance, and fire services free of charge.

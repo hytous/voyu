@@ -1,0 +1,38 @@
+# Build
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Logs
+*.log
+*.err.log
+
+# Temp
+tmp-*
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven
+dependency-reduced-pom.xml
+
+# Data
+data/plans/
+infra/data/
+
+# Node
+node_modules/
+
+# Qt builds
+client-qt/build/
+client-qt/build-make/
+client-qt/build-widgets/

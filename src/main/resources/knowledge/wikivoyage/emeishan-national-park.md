@@ -1,0 +1,78 @@
+# Emeishan National Park
+Chinese destination aliases: 峨眉山, Mount Emei, Emeishan National Park
+
+## Overview
+Mount Emei (峨嵋山 or 峨眉山; Éméishān) is a sacred Buddhist mountain in the southern part of Sichuan, China.
+
+## Understand
+Mt. Emei stands at 3099 meters (10,167 feet), and is associated with Puxian Bodhisattva (Samantabhadra) - a representation of 'Great Practice' and 'Great Virtue'. Ever since Buddhism arrived in China, it has been an important center of refuge, and the mountain contains more than one hundred temples and monasteries. The mountain is a UNESCO World Heritage Site.
+If you expect Emeishan National Park to be a pristine mountain area, you need to adjust your expectation before you come here. It is lined with roads, peppered with houses and accommodation. The hiking trail is nice though. Keep in mind that it's a highly touristic area, so it can be very crowded depending on the season.
+
+## Get in
+Mt. Emei is 150 km south of Chengdu, 130 km from the Shuangliu International Airport and 28 km from Leshan city. There are regular overnight trains between Emei Shan and Kunming as well as trains and buses to/from Chengdu (Xinnanmen Bus Station, ¥48, every 20 min from 07:20-19:20) and Leshan. With the completion of the train stations in Chengdu, high-speed trains go regularly from Chengdu South, Chengdu East, Shuangliu International Airport to Emeishan via Leshan for about an hour ride. It is however recommended to stay overnight in Emeishan City or Bauguo to make full use of the National Park.
+You can get tickets from the Tourist Information Desk in the Railway Station, or in the Tour Passengers Transport Service in Baguio (a big building in the center of the main street). Maps for both Emeishan and Leshan are ¥5, and an entrance ticket for the National Park is ¥160 (valid for 2 days). Keep the ticket as you will need it for scanning at checkpoints within the park, as well as buying bus & cable car tickets. Price is reduced for the period of 15 Dec - 15 Jan (¥110).
+From the train station, walk around to the left to the local bus station. All bus routes will have pinyin on them; bus 12 will take you to Baoguo Station; a short walk away is Baoguo Temple, which is reasonably well signposted. Other temples are very well signposted from Baoguo.
+
+## Get around
+Maps are available at the mountain, although the presentation prioritizes artistic vision over accurate depictions of distance between locations.
+Visitors are free to travel around all places reached by the paved footpath and enter monasteries. Many interesting spots are secluded away from the tourist areas and on the lower third of the mountain, between Baoguo Temple and Niuxin Pavilion. It is common for hikers looking to climb to the summit to start from either Wuxiangang or Wannian Stations, which provide quick access to the main two routes up the mountain, both starting at Niuxin Pavilion.
+To comfortably see the whole mountain, you'll need three days. It is not possible to reach the summit in a day for a normal, untrained person starting from Baoguo Temple. However, a reasonably fit person should be able to take western path from Niuxin Pavilion to the summit in around 10–12 hours. An alternative to this would be to take the cable care from Wannian station, which will skip a steep climbing section at the start of the mountain.
+Hiking the whole mountain can be a strenuous endeavor; although there are paved step paths to the summit, the trails are very steep in places, and hiking from Wannian Monastery to the Golden summit is about 30 km. The distances assigned on the posts are not realistic, they may be divided by two. Distances between accommodation can be huge, so be sure that you'll be near one at sundown. Much of the mountain sits in cloud for over 330 days of the year, leading to very quick drops in visibility after sunset.
+Snow covers the upper reaches of the mountain from December into mid-Spring, so invest in a bamboo hiking pole (¥2-4 depending on the seller as of Oct 2021) and some crampons if the ground is slippery. You can rent a winter coat at the Leidongping Bus Station (¥170 as of Oct 2021).
+To get a bus to near the summit (Leidongping), you will first need to arrange travel of one of the main access points to the park at Baoguo Temple, Wannian Cable Car Station or Wuxiangang Park. Return tickets up & down the mountain will be ¥80-100, depending on your starting point. There are buses from the town of Emeishan, as well as private hire cars which can take you to these points. It is possible to use a Didi (China's Uber equivalent) to ensure a fair rate.
+There are two cable cars on the mountain - Wannian Cable Car Station to Wannian Temple, and Jieyin Temple to the Golden Summit. Note that whilst both of the cable cars reduce the hiking distance significantly, you may still expect a 6-8 hour climb between the two, with 1500m elevation gained.
+There are also sedan chairs carried by people (but what you save in strain you'll spend in Yuan) that will take you to/from, different points with different rates. These routes and rates are fixed. Whilst the fitness of the carriers is immense, they only operate on very specific sections of the trail (Niuxin - Wannian Temple, Niuxin Pavilion - Heilongjiang Plankway, Leidongping - Jieyun)
+
+## See
+1 Golden Summit (金顶 Jīndǐng). With a towering, multi-face statue of Samantabhadra and vertigo-inducing views of the cloud sea around the mountain, the peak makes a perfect reward for the thigh-shattering climb from Baoguo. 
+2 Huazang Temple (华藏寺 Huázàng Sì). Near the summit. There is a terrace with a fine view. 
+3 Wannian Monastery (万年寺 Wànnián Sì). A large monastery with a fantastic statue of Puxian Bodhisattva, who is depicted as riding a white elephant with six tusks. The monks there are great, and they add a good deal to the ambience of the mountain. A part of the temple is a modern re-construction. 
+4 Leiyin Monastery (雷音寺 Léiyīn Sì). This temple, and some of the others temples tucked away in the seams of the mountain, are worthy of exploring, although many are cheaply-made, modern constructions. 
+5 Baoguo Temple (报国寺 Bàoguó Sì). Contains a massive bronze bell, said to be heard from 16 km (10 miles) away when rung. ¥8. 
+6 Jiulao Cave (九老洞 Jiŭlǎo Dòng). Close to the Xianfen Temple. Deep Taoist cave. Lots of pilgrims go there to burn incences. It does not seem advised to take this path in winter unless well prepared. ¥2. 
+ Pinnacle Lingyan (灵岩叠翠). Emei Mountain lies seven kilometers southwest of Emeishan City and is one of the four mountain ranges in China that Buddhists consider sacred. It was included in the UNESCO world heritage list in 1996. The mountain stretches more than 200 km from south to north. Its main peak, Wanfo Top, is 3,099 meters above sea level. Since ancient times Emei Mountain has been described as “Beauty Under Heaven”. 
+7 Bailong Cave (白龙洞, White Dragon Cave).
+
+## Do
+Hiking is one of the main attractions, with trails criss-crossing the park. One of the most picturesque area is located between Niuxin Pavilion and Xianfeng Temple. 
+The beginning of trail from Emeishan is through Leiyin temple, cross concrete road, near Lin He restaurant/hotel/shop, between Fuhu temple (entrance fee ¥6) & Shanjue temple stairs.
+
+## Buy
+Hawkers sell straw or bamboo poles and crampons to attach to boots, which will be necessary when paths are slippery in the winter and spring
+
+## Eat
+Restaurants are located at convenient intervals so there is little need to carry food. A mantou (steamed bun) costs ¥5, and a dish is about ¥15-20. The higher you go, the more expensive the food is.
+The monasteries all offer delicious vegetarian fare for around ¥20 a person, though breakfast options might be a disappointing bowl of rice with water and a steamed bun for ¥10 a person. Jieyin Hall Temple has a delicious all- you-can-eat for ¥20; take the stairs on the left after entering. If you want a meat based Chinese meal, there are restaurants close to the tourist temples. Cooked food at pit stops and the restaurants can be wildly expensive (¥40 for a plate of fried noodles), so check prices and consider pot-o-noodles if you're the budget-conscious type. You can also get snacks at several places along the trails.
+If you are looking for a good meal near the base of the mountain near the Emeishan mountain transit bus station, it's highly recommend to leave the main tourist strip on Jinqu Road (景区路) for meals. Most of the restaurants on this tourist strip are overpriced and serve low quality ingredients, producing a mockery of good szechuanese cuisine. If you are able, a short walk out of the park area will take you to a strip of local restaurants that serve delicious, authentic, and appropriately priced regional dishes. From the entrance gate of the park, beginning of Jinqu Road, head northeast up Mingshan South Road (名山南路) for a few hundred meters. On the east side of the street are a series of good places to eat. A good place to try is Niu Man Tang (牛满堂翘脚牛肉), a restaurant that serves Tiao Joao Niu Rou (a beef broth with various types of beef parts — round, tongue, brisket, tripe, tendon, etc), a regional specialty. The other places serve varieties of this dish, along with szechuanese grilled fish, hot pot, and other popular regional dishes. These restaurants cater mostly to locals and don’t have English menus or pictures of their food, but some of the waitstaff are local college students so you may luck out with language. Otherwise, just get what everyone else there is eating and you won’t be sorry!
+Once past the Joking Monkey Zone or Wannian temple, food vendors will become more scarce in line with the reduced footfall. Many of these locations will be shuttered in the colder months (between October 8 & Tombsweeping holiday in April, with the exception of Chinese New Year). There are many stalls around Leidongping and further up which should be open all year
+
+## Drink
+Do not drink from the mountain streams. There are several shacks along the way that sell bottled water for ¥5. They are frequent enough that you don't need to worry about water when hiking. And there's boiled water in almost every temple.
+
+## Sleep
+Cheapest places used to be staying at the monasteries. As of April 2012 prices of ¥120 or more for a very basic twin room with no heating or electric blankets. Like Xianfeng Temple, Elephant Bathing Pool, Hongchun Ping, Huayan Peak, Jieyin Hall and Wannian Temple. You can find regular hotels close to the tourist spots that are more expensive. There are guesthouses along the mountain for around ¥60 a person, though they offer frigid rooms and not much else. Accommodation at monasteries closest to tourist spots tends to be more expensive. Bathrooms tend to be primitive and not for the faint-hearted. Don't expect any wifi or power outlets in rooms.
+Hotels prices at the top are around ¥200-500. Hotels can have electric blankets.
+Note; if you've a room at the hotel at the top of the mountain and you are at the skiing area, check the departure time for the last bus leaving either up or down the mountain to avoid being stranded for a very cold stay at the mid-mountain hotels. They are pretty much not heated. The heat they do have is so little that it will be below zero in your room. During this time of the year much of the plumbing is also shut down so do not expect running water anywhere Including the toilets! Instead, toilet bowls are lined with plastic garbage bags which get carried off in the morning.
+These hotels are at the base of the national park area, a good idea before you start your journey up or before you leave.
+
+1 Mt. Emei Hostel 3077 (峨眉山3077客栈), Lingxiu Hot Springs Memorial Archway, Baoguo Temple Scenic Area, Baoguo Road (报国路报国寺景区灵秀温泉牌坊处) (in Baoguo Village, just off the main road), ☏ +86 833 5591698, +86 180 4881 6899. Check-out: 12. A great, atmospheric little place at the foot of Emei Mountain. 30 kuai for a dorm bed (before bargaining) and 50 for a double room (without ensuit). The staff speak a little English, and are very helpful. Restaurant is, unfortunately, as exorbitant as everywhere else in this tourist area. On the main road, look for a big sign to a big hotel. Underneath the hotel name it mentions a youth hostel. That's your place. 
+2 Teddy Bear Hotel (玩具熊酒店), No. 43 Baoguo Road, Baoguo Village (located one block from Baoguo bus station), ☏ +86 833-5590135, teddybearcafe@aliyun.com. Check-out: 12. The original budget accommodation in Emei Shan. All rooms come with a bathroom. They also offer free hiking information and free pickup from Emei Bus/Train station. Western breakfast available. Great crepes. Dorms (¥40-70), single (¥80–100), double/twin (¥80–200 depending on amenities) and triples (¥150–200).
+
+## Stay safe
+Aside from being careful at the top of the mountain, one main thing to remember are the aggressive monkeys who pester hikers for handouts, keep food packed away. These monkeys have been severely teased by many tourists so their behaviour is unpredictable. If you come across any monkeys outside of the temples, do not stop to take pictures or stare as they will bite if provoked. Just walk briskly away and talk in a soothing voice to calm the monkeys enough to leave you alone.
+The monkeys have got it all figured out. They can be everywhere in Mount Emei. Chinese people find the monkeys an integral part of the Emei trip and many like to tease them.
+
+Some tour guides from local Chinese travel agencies suggest to give the monkeys some peanuts or sweets and then hands up and clapping, in order to show you don't have food anymore. Never fool them or trick them as they may act wildly and hurt you.
+Keep some distance while watching and feeding the monkeys. Never touch them! Hide your pocket and packages as they may be robbed by the monkeys.
+Walk with a big group if possible. Ask for help if you get attacked by them or protect yourself with some simple weapons like the alpenstock.
+Pack rain gear and be vigilant with your step as the paths get slippery, especially from October to April. Locals will walk the route in trainers and regular shoes. Hawkers sell straw poles and crampons to attach to boots. Warm clothing is essential at the summit year round. Don't forget that even though it's touristy, it's still a mountain. Staircases can be tiring, and the distances are quite far (120 km in two tracks). It isn't Everest, but at 3000 m (10,000 feet), it's at the lower limit of altitude sickness inducing heights. You're more prone to headaches and exhaustion, so drink water, pace yourself on the upper staircases, and stop ascending if you feel faint or nauseous.
+Whilst the temperature may be cold, at the summit, fair skin still burn quickly under sunlight, so use sunblock.
+
+## Go next
+To get back to Emeishan High-Speed train station from the bus station at Wuxiangang parking lot, buy a minibus ticket from the bus station (¥20) back to the high speed station. The staff will write your bus number on your ticket; the bus number is spray painted on the rear of the bus. The driver might try to be cheeky and stop at the town bus station. If this happens kick up a fuss as your ticket is for the high speed rail station a further 1.5 km along the main road.
+The last two high-speed trains from Emeishan to Chengdu East/South are at 18:30 and 21:00.
+
+Leshan Grand Buddha - A massive, 240 ft (73 m) high Buddha carved into the mountainside.
+The city of Chongqing is a grand city on the Yangtze
+The Yangtze River offers many scenic cruising options to the north
+Chengdu is both historic and modern. Bus ticket costs ¥45 for ~3 hr trip.

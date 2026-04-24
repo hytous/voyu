@@ -1,0 +1,131 @@
+spring:
+  application:
+    name: voyu-agent
+  ai:
+    mcp:
+      client:
+        enabled: true
+        initialized: true
+        type: SYNC
+        request-timeout: 45s
+        toolcallback:
+          enabled: true
+        streamable-http:
+          connections:
+            voyu-external:
+              url: http://127.0.0.1:8091
+              endpoint: /mcp
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/voyu
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: voyu-agent
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: com.voyu.agent.model.history
+    properties:
+      spring.json.add.type.headers: false
+
+server:
+  port: 8090
+
+voyu:
+  agent:
+    max-rounds: 5
+    max-react-steps: 5
+    max-task-attempts: 3
+    max-parallelism: 4
+    stream-timeout-ms: 300000
+  llm:
+    api-key: sk-oPtAZthMBU6aFKn1YtMxsy600HF9MVExxsvmvPp13ruxDUOd
+    base-url: https://api.moonshot.cn/v1
+    model: kimi-k2.5
+  rag:
+    top-k: 5
+    candidate-limit: 10
+    embedding-dim: 512
+    elasticsearch-enabled: true
+    elasticsearch-index: voyu_travel_knowledge
+    milvus-enabled: true
+    milvus-collection: voyu_travel_knowledge
+    siliconflow:
+      enabled: true
+      api-key: sk-ibbuszfbzhwtblhkiuzuerlhvxbxwanqmzchtrwqtxryllsc
+      base-url: https://api.siliconflow.cn/v1
+      embedding-model: Qwen/Qwen3-Embedding-8B
+      reranker-model: Qwen/Qwen3-Reranker-8B
+      rerank-enabled: true
+      reranker-instruction: 请优先保留与用户目的地、玩法偏好和预算约束最相关的旅行知识。
+  history:
+    topic: voyu-conversation-history
+  memory:
+    chat-window-size: 12
+    max-history-sessions: 5
+    max-highlights: 8
+  domestic:
+    amap:
+      api-key: ${AMAP_MAPS_API_KEY:375958c7f4d01c35da0dea63c196379d}
+    tencent-map:
+      api-key: ${TENCENT_MAP_API_KEY:WW5BZ-CIBWZ-U5DXM-ZTFM6-QLHVH-SNBHS}
+    bocha:
+      api-key: ${BOCHA_API_KEY:sk-06432bc334b64d14b363619c34264c6c}
+    seniverse:
+      public-key: ${SENIVERSE_PUBLIC_KEY:PPoUnGfCZx1kkeoep}
+      private-key: ${SENIVERSE_PRIVATE_KEY:SBnjI8G8zNRa-HV1A}
+  mcp:
+    enabled: true
+    allow-all-tools: true
+    externalize-domestic-tools: true
+    provider: local-voyu-mcp
+    externalized-local-tools:
+      - weather.lookup
+      - map.poi.search
+      - map.route.plan
+      - web.search
+    tools:
+      - name: weather.lookup
+        description: 通过本地 MCP Server 调用心知天气/高德天气
+        source: local-voyu-mcp
+        enabled: true
+      - name: map.poi.search
+        description: 通过本地 MCP Server 调用高德/腾讯 POI 搜索
+        source: local-voyu-mcp
+        enabled: true
+      - name: map.route.plan
+        description: 通过本地 MCP Server 调用高德路线规划
+        source: local-voyu-mcp
+        enabled: true
+      - name: web.search
+        description: 通过本地 MCP Server 调用博查网页搜索
+        source: local-voyu-mcp
+        enabled: true
+  middleware:
+    mongodb:
+      host: localhost
+      port: 27017
+    kafka:
+      host: localhost
+      port: 9094
+    elasticsearch:
+      url: http://localhost:9200
+    milvus:
+      host: localhost
+      grpc-port: 19530
+      health-url: http://localhost:9091/healthz
+    minio:
+      url: http://localhost:9000/minio/health/live
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.voyu.agent: INFO

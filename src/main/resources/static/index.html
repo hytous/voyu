@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyu | 智能旅游规划助手</title>
+    <meta name="description" content="Voyu 基于 Spring AI 的智能旅游规划助手，支持 Plan-Execute、SSE 流式推理展示与双路 RAG 检索。">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+            <div class="brand-mark">V</div>
+            <div>
+                <p class="eyebrow">Travel Agent Workspace</p>
+                <h1>Voyu</h1>
+            </div>
+        </div>
+
+        <div class="sidebar-actions">
+            <button class="primary-button" id="newSessionButton" type="button">新建对话</button>
+            <button class="secondary-button" id="refreshSessionsButton" type="button">刷新会话</button>
+        </div>
+
+        <section class="sidebar-section">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">History</p>
+                    <h2>历史会话</h2>
+                </div>
+                <span class="sidebar-counter" id="sessionCountBadge">0</span>
+            </div>
+            <input class="session-search" id="sessionSearchInput" type="search"
+                   placeholder="搜索会话标题、目的地、状态" autocomplete="off">
+            <div class="session-list" id="sessionList"></div>
+        </section>
+
+        <footer class="sidebar-foot">
+            <p>Plan-Execute 主循环</p>
+            <p>Milvus + Elasticsearch 双路召回</p>
+            <p>SSE 推理过程流式展示</p>
+        </footer>
+    </aside>
+
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+    <main class="workspace">
+        <header class="workspace-header">
+            <div class="header-left">
+                <button class="icon-button" id="sidebarToggle" type="button" aria-label="切换侧边栏">☰</button>
+                <div>
+                    <p class="eyebrow">Spring AI Travel Planner</p>
+                    <h2>把旅行对话、任务书和执行轨迹放进同一个工作台</h2>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="secondary-button compact-button" id="backHomeButton" type="button">回到空白页</button>
+                    <button class="primary-button compact-button" id="headerNewSessionButton" type="button">新建对话</button>
+                </div>
+                <div class="header-status" id="streamStatusBadge">空闲</div>
+            </div>
+        </header>
+
+        <section class="workspace-body" id="workspaceBody">
+            <section class="content-grid">
+                <div class="content-column">
+                    <section class="panel panel-conversation" id="conversationPanel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Conversation</p>
+                                <h3>对话记录</h3>
+                            </div>
+                            <span class="status-pill" id="sessionStatusPill">未开始</span>
+                        </div>
+                        <div class="conversation-list" id="conversationList">
+                            <div class="empty-state">还没有会话内容，先在右侧输入旅行需求。</div>
+                        </div>
+                    </section>
+
+                    <section class="panel panel-composer">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Payload</p>
+                                <h3>对话输入</h3>
+                            </div>
+                        </div>
+                        <form class="brief-form" id="travelForm">
+                            <p class="composer-hint">直接用自然语言继续对话即可。目的地、天数、预算、偏好会优先从聊天内容与历史上下文中抽取；出发地保留为可选快捷字段。</p>
+                            <label>
+                                <span>出发地（可选）</span>
+                                <input id="departureInput" name="departure" type="text" placeholder="上海">
+                            </label>
+                            <label>
+                                <span>消息内容</span>
+                                <textarea id="messageInput" name="message" rows="7" placeholder="例如：我想五一去大阪玩几天；或者：预算改到 7000，想多安排美食和轻松步行。"></textarea>
+                            </label>
+                            <div class="hidden-inputs">
+                                <input id="destinationInput" name="destination" type="hidden">
+                                <input id="travelDaysInput" name="travelDays" type="hidden">
+                                <input id="budgetInput" name="budget" type="hidden">
+                                <input id="preferencesInput" name="preferences" type="hidden">
+                            </div>
+                            <div class="action-row">
+                                <button class="primary-button" id="submitButton" type="submit">发送消息</button>
+                                <button class="secondary-button" id="abortButton" type="button" disabled>中止流式任务</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+                <aside class="inspector">
+
+                    <!-- 1. 会话信息 ──────────────────────────────── -->
+                    <section class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Current Session</p>
+                                <h3>会话信息</h3>
+                            </div>
+                            <button class="ghost-link danger-link" id="deleteSessionButton" type="button">删除</button>
+                        </div>
+                        <div class="session-meta">
+                            <div class="meta-row">
+                                <span>Session ID</span>
+                                <code id="sessionIdValue">未生成</code>
+                            </div>
+                            <div class="meta-row">
+                                <span>更新时间</span>
+                                <span id="sessionUpdatedAt">-</span>
+                            </div>
+                            <div class="meta-row">
+                                <span>错误</span>
+                                <span id="sessionErrorValue">无</span>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- 3. 思考与推理 ─────────────────────────────── -->
+                    <section class="panel" id="reasoningPanel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Reasoning</p>
+                                <h3>思考与推理</h3>
+                            </div>
+                        </div>
+                        <div class="reasoning-list" id="reasoningList">
+                            <div class="empty-state">思考链路会在这里拆成可读步骤，而不是原始事件 JSON。</div>
+                        </div>
+                    </section>
+
+                    <!-- 4. 任务书与执行 ───────────────────────────── -->
+                    <section class="panel" id="planPanel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Plan Layer</p>
+                                <h3>任务书与执行</h3>
+                            </div>
+                        </div>
+                        <div class="task-board" id="taskBoard"></div>
+                    </section>
+
+                    <!-- 5. 检索依据 ──────────────────────────────── -->
+                    <section class="panel" id="knowledgePanel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Knowledge Hits</p>
+                                <h3>检索依据</h3>
+                            </div>
+                        </div>
+                        <div class="knowledge-list" id="knowledgeList">
+                            <div class="empty-state">当本轮会话触发 RAG 后，这里会展示命中的知识片段。</div>
+                        </div>
+                    </section>
+
+                    <!-- 6. 事件时间线 ─────────────────────────────── -->
+                    <section class="panel" id="timelinePanel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Execution Trace</p>
+                                <h3>事件时间线</h3>
+                            </div>
+                        </div>
+                        <div class="timeline" id="timelineList">
+                            <div class="empty-state">还没有事件。</div>
+                        </div>
+                    </section>
+
+                    <!-- 7. 中间件状态 ─────────────────────────────── -->
+                    <section class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow">Infra</p>
+                                <h3>中间件状态</h3>
+                            </div>
+                            <button class="ghost-link" id="refreshInfraButton" type="button">刷新</button>
+                        </div>
+                        <div class="infra-grid" id="infraGrid">
+                            <div class="empty-state">正在加载中间件状态...</div>
+                        </div>
+                    </section>
+
+                    <!-- 隐藏节点：保留 DOM id 供 app.js 安全写入 -->
+                    <div hidden>
+                        <div id="finalAnswerBody"></div>
+                        <div id="memorySummaryBody"></div>
+                        <div id="preferenceMemoryBody"></div>
+                        <div id="memoryHighlightsList"></div>
+                        <div id="ragSummaryList"></div>
+                        <!-- 已移除的面板 DOM id 存根，供 app.js 安全写入 -->
+                        <div id="userBrief"></div>
+                        <div id="requestMetaChips"></div>
+                        <div id="sessionStatusPill"></div>
+                        <div id="planThoughtBlock"></div>
+                        <div id="missionBlock"></div>
+                    </div>
+
+                </aside>
+            </section>
+        </section>
+    </main>
+</div>
+
+<noscript>Voyu 前端需要启用 JavaScript。</noscript>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

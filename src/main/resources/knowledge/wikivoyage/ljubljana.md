@@ -1,0 +1,71 @@
+# Ljubljana
+Chinese destination aliases: 卢布尔雅那, Ljubljana, Ljubljana
+
+## Overview
+Ljubljana ("lee-oo-blee-AH-nuh") is the small but delightful capital of Slovenia. While the city's population had grown to 295,500 in 2020, the sights and amenities are concentrated in the charming old centre. It's full of artists, museums, and galleries, it's friendly and easy to reach, and it's a good base for exploring the rest of the country.
+
+## Understand
+Ljubljana stands at the entrance to a plain in an otherwise mountainous region, the confluence of several river valleys, so it's been a focus for settlement, trade and transport since prehistory. The first known city was the Roman Colonia Iulia Aemona; in medieval times it became Laibach and this name is still used by some German-speakers (as well as modern Slovenia's most notable cultural export, the band of that name). It fell under the gravity of Austria-Hungary and was a duchy or province of the Habsburg Empire until 1918. For much of the 20th century it was part of Yugoslavia until independence in 1991. This means that Ljubljana has simply been a regional capital, and has only been the national capital of a relatively small country for a few decades. The city landscape reflects this: it's compact and walkable, cosy and friendly, rather than grandiose. There are no vast ceremonial boulevards, bling palaces or imperial fists of fortification. It's not a place where you hop around ticking off must-see sights, like a bug with a selfie-stick for antennae. Relax, stroll and enjoy the atmosphere.
+No-one really knows how its current name came about: it resembles ljubljena - "beloved" - in Slovenian, but that seems to be just a happy coincidence. It sits in the valley of the Ljubljanica river, with green hills hemming it in on either side. The river makes a right angle, with the castle and oldest parts of the city on the hill in the southeast quadrant. A 19th century street grid extends north of the river, then the modern town sprawls to the west and north. Three natural disasters shaped the city architecture. An earthquake of 1511 caused extensive re-building in Renaissance style, and in stone to curb the fires of the wooden city. Another earthquake in 1895 prompted rebuilding in Vienna Secession style. It was flooded by the river multiple times until the Gruber Canal was cut across the southeast quadrant in the 18th century, turning the castle hill into an island. Therefore the main flow bypasses the old centre, which was protected from the devastating 2010 floods of the Danube catchment region. The "Triple" and "Dragon" bridges stand intact as proud symbols of Ljubljana.
+Ljubljana is a year-round destination but you need to dress for the Balkan climate. Summers are warm, with daytime highs of 30°C. There are often public events and festivals, with streets converted from traffic thoroughfares to event spaces, but afternoons can be humid with thunderstorms and downpours. Early summer and autumn enjoy more even temperatures, and there's a student buzz as the university is in session. In winter it's near-zero, often with snow, and biting winds off the hills, but as Christmas approaches the streets are decorated by thousands of lights, and food and drink kiosks pop up along the river bank. February is grey, before in spring the city blooms with flowers planted on its streets and crossroads.
+
+1 Ljubljana Tourist Information Centre, Stritarjeva (next to the Triple Bridge), ☏ +386 1 306-4583, tic@visitljubljana.si. M-F 08:00-20:00, Sa Su 10:00-18:00. Also offers three sightseeing tours in the summer at 10:00, 14:00, and 17:00 for €10. There are nice souvenirs and a free map.
+
+## See
+In 2021, seven works in Ljubljana by architect Jože Plečnik were inscribed on the UNESCO World Heritage List. These are the Trnovo Bridge, the green promenade along Vegova Street, the promenade along the embankments and bridges of the Ljubljanica River, the Roman walls in Mirje, the Church of St Michael, the Church of St. Francis of Assisi and the Garden of All Saints (Plečnik’s Žale).
+
+1 Triple Bridge (Tromostovje) (At the heart of the old city). The central span is from 1842: it became a bottleneck so in the 1930s footbridges were added on each side, fanning out slightly. On the north bank these lead into Prešeren Square, adorned by the statue of the national poet France Prešeren (1800-1849). It's the obvious rendezvous point in town; the area is pedestrianised. The TIC is south end of the bridge. (updated Apr 2023)
+2 Old Town (squeezed between the castle hill and Ljubljanica river). The old town has two squares, Mestni trg (City square) with the Robba fountain and the city hall behind it, and, further on, Gornji trg (Upper square). Well preserved medieval buildings now house local designer shops, and several popular cafes and restaurants. Although they may look creepy, the perfectly safe narrow lanes lead to charming little squares and buildings. 
+3 Dragon Bridge (Zmajski Most). Completed in 1901, designed by Croatian Jurij Zainovich. It is guarded by four detailed dragon statues from the city's coat-of-arms. Look out for the dragon motif throughout the city. Be careful around the Dragon Bridge area, as it is on a major busy road just outside the pedestrian zone and near misses (and worse) between inattentive tourists and traffic are common. The dragon bridge is located at the end of the Ljubljana Open Market, just a block or two down the river (north-east direction) from the Triple bridge. 
+4 Ljubljana Castle (You can catch the funicular or walk up). The tower has magnificent views all over the city. You can also see the Sava River and Kamnik Alps in the distance. Included is a 3D Movie of the history of Ljubljana from a pre-historic settlement to Roman Empire to modern times (€6.50 for adults, €3 for students, seniors). Entrance to the Castle Courtyard, Chapel and Gift shop is free, but there is a charge for access to the tower. (updated Sep 2023)
+5 Republic Square. Where crowds gathered as Slovenia announced its independence from the Yugoslav Federation in 1991. The square has significant importance for Slovene history, as it was a place of important public gatherings (and demonstrations) in the past. Across the road is the Slovene Parliament. Its façade is decorated with artistic nude statues of Slovenes at work and leisure. The square also houses the International Business Centre. (updated Aug 2025)
+ 
+6 Roman Ruins. A short walk west of the centre of town are the remains of the Roman City Walls, including a number of pillars from an entrance gate. 
+7 Krakovo. A village-like part of the city connecting the centre to the Trnovo suburb. 
+8 Metelkova. A self-declared autonomous culture place to gather for alternative artists, many subcultures and youth. What used to be a military barracks is now full of underground artists, bars and nightclubs. Metelkova can get crowded on Fridays and Saturdays. It is within 5 minute of walk from main Train Station, and it is home to a renowned hostel Celica. (updated Aug 2025)
+9 Tivoli Park to the west is the city's main park, with a large pond at its southwest end and the hill of Rožnik behind.
+10 Ljubljana Zoo, Večna pot 70, (take bus 18, 18L). 09:00–16:30 (winter) (open until 19:00 in summer). Closed Christmas Day.. One of the most beautiful zoos in Europe. Adults €10; students & seniors €8.50; Children €6.50. (updated Sep 2023)
+11 University Botanic gardens Ljubljana, Ižanska cesta 15, ☏ +386 1 427-1280. Open daily, Apr–Jun 07–19, Jul–Aug 07–20, Sep–Oct 07–19, Nov–Mar 07–17. Tropical glasshouse has reduced hours: Daily 10:00–16:45. Ljubljana Botanic Garden is the oldest Slovene cultural, scientific and educational institution. It was founded in 1810, the time of the Illyrian Provinces, as a garden of native flora and a section of the Central School (École Centrale). In the garden is also tropical glasshouse. Gardens are free, tropical glasshouse €2.80. 
+12 Tomb of National Heroes. a tomb and a monument for the national heroes of the World War II resistance struggle in Slovenia, created in 1949. (updated May 2021)
+13 Ursuline Church of the Holy Trinity. A Baroque style church built between 1718 and 1726. (updated May 2021)
+14 Congress Square (Kongresni trg). One of the central squares, built in 1821. In 1988 the first free mass demonstration was held here, which was the start of the Slovenian spring, leading to the declaration of Slovenia's independence in 1991. (updated May 2021)
+15 Nebotičnik. A 13 storey high-rise.built in 1931, designed by Vladimir Šubic, with a cafe & bar on the top floor. (updated May 2021)
+16 Sts. Cyril and Methodius Church (Cerkev sv. Cirila in Metoda). An Orthodox Church has five domes with golden crosses at their top. It was built from 1932 to 1936, with interior frescos painted between 1986 and 1997. (updated May 2021)
+17 Franciscan Church of the Annunciation (Frančiškanska cerkev Marijinega oznanjenja). Built between 1646 and 1660, with a later front facade and bell tower. (updated May 2021)
+18 Ljubljana Cathedral (ljubljanska stolnica). St. Nicholas's Church (cerkev sv. Nikolaja) was built between 1701 and 1706 on a site dating back to 1262. The fine interior includes fresco painted by Giulio Quaglio between 1703 and 1723. (updated May 2021)
+19 Ljubljana Mosque. For non-muslims - Monday, Tuesday, Wednesday, Thursday and Saturday between 10 and 11 a.m., Exterior is free for all. An intricate set of buildings, the first mosque in the country. (updated Feb 2026)
+
+## Do
+Hot Air Balloon Flights (Balonarski center Barje), ☏ +386 1 512 9220, info@bcb.si. These launch at sunrise for one-hour flights, weather permitting. The launch spot is chosen on the day so the wind carries you over the historic centre. The whole programme is about 4 hours so reckon on a very early start. From €180 pp. (updated Jun 2021)
+Football: 1 Olimpija Ljubljana, Stožice Stadium. They play soccer in PrvaLiga, the top tier. Their home ground (capacity 16,000) is off the ring road 2 km north of city centre. (updated Apr 2023)
+NK Bravo also play in PrvaLiga, at Park Šiška (capacity 2300) 1 km northwest of the railway station.
+
+## Buy
+Several department stores such as Maximarket, H&M, Müller, Nama, are located in the city centre. Additionally, Čopova street and the Old town have a dense collection of small shops.
+
+1 BTC City Shopping District (At the north-eastern edge. Take Bus 27.). One of Ljubljana's two main shopping area. (updated Apr 2023)
+2 Rudnik Shopping District (In the south-eastern edge of the city.). The second major shopping district. (updated Apr 2023)
+3 Sunday flea market, Gallusovo nabrezje. Daily 08:00-14:00. Two dozen or so stalls selling overpriced knick-knacks. Postcards, €10. Tito and Disney memorabilia, broken Chinese-made curios, rusty military paraphernalia. 
+4 Central Market, Vodnikov trg (right bank of the Ljubljanica river, 200 m from the Triple Bridges). The central, open-air market features a wide array of local produce (exact items vary depending on the season), as well as local cheeses, breads and meats in the adjacent building. If you're lucky, you may still find sellers who have wheeled in their vegetables from south of the city centre (Krakovo) by foot—although they are a dying breed. Open every morning and early afternoon except Sunday; most lively on Saturday mornings. On Fridays you can also visit the 'Open Kitchen' 08:00–21:00, March–October.
+
+## Drink
+Most of Ljubljana’s bars tend to cluster on the streets running parallel to the river, radiating from Prešernov trg, which is the main square in Ljubljana. The more interesting bars tend to be on the backstreets, rather than directly facing the river. Part of the joy of this city is stumbling across these places, but these are few to start you off.
+Cheaper bars can already be found just outside the old town and near university buildings.
+
+## Stay safe
+Ljubljana is one of the safer capitals you'll visit in Europe. Remarkably safe during the day, you should have no problems wandering at night, provided you are not desperately looking for trouble.
+With that said, be wise to not wander into the rougher parts of Ljubljana at night, though they are located far from the city centre and not commonly frequented by tourists. Areas to avoid include Fužine, Rakova Jelša, Štepanjsko naselje, southern Vič (near and south of the motorway), western parts of Šiška, and Moste. The streets immediately south of the train station have become seedier since 2020 but still remain relatively safe in comparison to other European cities.
+Tivoli Park is generally safe and a very popular destination for picnics or taking an afternoon stroll for an average Ljubljanian, but just as anywhere in the world it is recommended that you don't put your guard down and avoid larger groups of teenagers hanging around in the park late at night, as thefts and sexual assaults have been reported.
+After a long time there were reports in 2023 of new attacks on LGBT+ people in the center of Ljubljana on the Pride day.
+
+## Go next
+Ljubljana is at the hub of transport routes across this relatively small country, so you can easily reach anywhere else in Slovenia and across its borders. Here's a selection:
+
+Bled is a picturesque town 1 hour away. Hire a rowboat on the lake to visit the island church, then see the castle.
+Triglav National Park and the Julian Alps near Bled for outdoor activities: hiking, mountaineering, rafting, canyoning, paragliding, skydiving and so on.
+Postojna has the vast Postojna Caves and Predjama Castle, an Škocjan Caves are in nearby Divača.
+The coast is short, sandwiched between Croatia's Istrian resorts and the industry and marshes of Italy. Koper is the largest coast resort, Piran is the prettiest.
+Kamnik is a button-cute little town 45 min north of Ljubljana, just below the Kamnik Alps. It has a perfectly preserved medieval town centre, with the ski resort of Krvavec above.
+Zagreb in Croatia, 2 hr 30 min away, has an extensive medieval centre.
+Trieste (1½–2 hr) is in Italy yet redolent of the last days of the Austro-Hungarian Empire.
+Rijeka in Croatia (2 hr 30 min) for the Istrian peninsula, ferries to the Adriatic islands, and transport south to Zadar and Split.

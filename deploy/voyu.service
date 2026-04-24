@@ -1,0 +1,18 @@
+[Unit]
+Description=Voyu Travel Planning Agent
+After=network-online.target docker.service voyu-mcp.service
+Wants=network-online.target
+Requires=docker.service voyu-mcp.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/voyu
+ExecStartPre=/usr/bin/docker compose -f /opt/voyu/infra/docker-compose.server.yml up -d
+ExecStart=/usr/bin/java -Xms256m -Xmx512m -jar /opt/voyu/app/voyu-agent.jar --spring.config.additional-location=/opt/voyu/config/
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

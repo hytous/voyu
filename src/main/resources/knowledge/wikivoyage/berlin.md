@@ -1,0 +1,81 @@
+# Berlin
+Chinese destination aliases: 柏林, Berlin, Berlin
+
+## Overview
+Berlin is Germany's capital and largest city. Within the city limits, Berlin in 2022 had a population of 3.7 million.
+
+Berlin is coming into its own again as a cosmopolitan capital of one of Europe's wealthiest nations. "Arm aber sexy" (poor but sexy), as a former mayor would have it, Berlin attracts young people, students, and a creative bohème like few other cities in the world. With architectural heritage from Prussian monarchism, Nazism, East German communism and Potsdamer Platz, filled with 1990s- and 2000s-style glass palaces after having been a "blank canvas" due to the wall, Berlin's architecture is as varied as its neighbourhoods and its people. And due to its long history as a cosmopolitan capital, it has attracted immigrants from all over the world for more than 300 years now, who continue to leave their own marks on the city.
+Berlin is home to world-renowned universities, orchestras, museums, and entertainment venues. It hosts many sporting events. Its Zoological Garden is the most visited zoo in Europe and one of the most popular worldwide. The city is well known for its festivals, nightlife, contemporary arts, and a very high quality of living.
+
+## Districts
+Berlin can be seen as a cluster of centres. While Mitte might be thought of as the core of the city, it's often not where local's lives revolve around. Berlin has many boroughs (Bezirke), and each borough is composed of several localities (Kiez or Viertel) — each of these boroughs and localities has a unique style. Some boroughs of Berlin are more worthy of a visitor's attention than others. Almost all of them have everything that you might need for daily life a short walk from your lodging, and easy access to a metro station. Berlin used to be divided into 23 boroughs, and these boroughs are used in Wikivoyage as they remain foremost in popular conceptions of the city and are useful for visitors to know. In 2001, the number of boroughs was reduced from 23 to 12 for administrative purposes—mostly by merging old boroughs—sometimes across what was the inner-Berlin border. The boroughs can roughly be grouped into eight districts:
+
+## Understand
+The city of Berlin is co-extensive with the Land of Berlin, one of the 16 federal states that make up the Federal Republic of Germany. It has a population of 3.8 million (2019) (and a million more in suburbs like Potsdam across the state line in Brandenburg).
+Berlin is and has been far less dominant as the capital of Germany than London, Paris or Madrid are in their respective countries, because of the federal nature of Germany and because the havoc war and partition wreaked on the city. In many ways, West Berlin was in some ways forgotten by West Germany, given that it was located as an enclave inside of the DDR, and would be immediately lost if hostilities were to break out between NATO and the Warsaw Pact. Due to the collapse of the DDR, the main power centres of Germany remained the main power centers of West Germany, with money and power centred on the industrial and financial centres in West Germany. Following reunification, Berlin’s importance has grown steadily, leading to an intensified struggle for political control in the capital during the twenty-first century.
+Merely a backwater town in the early 18th century, Berlin grew to be one of the most important and biggest cities in the world by the 1920s. The heart of old Prussia and a focal point of the Cold War, it lost much of its importance and historic architecture as a result of World War II and German partition.
+Berlin is a world city of culture, politics, media and science. Its economy is based on high-tech firms and the service sector, a diverse range of creative industries, research facilities, and media corporations. Significant sectors also include IT, biotechnology, construction and electronics. 
+With the world's oldest large-scale movie studio complex in nearby Babelsberg, Berlin is an increasingly popular location for international film productions.
+
+## Get around
+Pedestrians should be careful not to walk in the designated bike lanes.
+
+## See
+Individual listings can be found in Berlin's district articles
+Berlin has numerous attractions dating from its turbulent history and in part owing to the fact that it was a "double capital" for 40 years. While the upkeep of some is an ongoing headache for the treasurer, they are a delight to visitors and many locals alike. Much of the city was destroyed in World War II, so Berlin is a rather modern city and does not have as much historic architecture as most other European capitals. What it instead has is some of the finest examples of contemporary architecture from the second half of the 20th century onwards.
+
+## Do
+Individual listings can be found in Berlin's district articles
+Pick up a copy of Exberliner, the English-language paper targeting expats and guests of Berlin to find out what's on, when and where. It provides good quality journalism and up-to-date listings. If you understand German, the activity planners for the city, zitty and tip, are available at every kiosk. LGBT+/Queer themed magazine and guide Siegessäule is also one of the most prominent of its kind internationally. Be prepared to choose among a huge number of options.
+
+## Buy
+Individual listings can be found in Berlin's district articles
+
+## Eat
+Individual listings can be found in Berlin's district articles
+
+Lovers of street food rejoice! Berlin has an incredibly wide variety of different styles and tastes at very affordable prices (for European wallets, that is). You can find superb food in small stalls tucked away under the tracks of elevated U-Bahn stretches for well under €5.
+
+## Drink
+Individual listings can be found in Berlin's district articles
+A word of warning: Berlin's famous laissez-faire attitude is perhaps most evident in its approach to indoor smoking. Although smoking is prohibited in all but the smallest bars, you should assume that everywhere you go out, if no food is being served, will be quite smoky. This is also the case at clubs and large concert venues. If you have any medical issues, then you should be prepared, and either change your plans or bring a well-fitting mask. If not sure, call the venue and ask.
+
+## Sleep
+Individual listings can be found in Berlin's district articles
+Berlin is still witnessing a construction boom of hotels and offices since the end of the Cold War. The boom leads to a significant oversupply of hotels which results in comparatively cheap prices even in the 5 star category (off-season prices of €110 per night are not unusual). Especially for a short visit, it may be best to stay at a place in Berlin-Mitte (around Friedrichstraße), as most of the main sights are located there. Due to its history most hotels in Berlin are still located in the City West (i.e. Charlottenburg-Wilmersdorf), especially close to Zoo station. Alexanderplatz and Anhalter Bahnhof have clusters of 2-3 star budget hotels (i.e. Ibis, Motel One). You'll find only budget hotels (Motel One and Meininger) located directly at the new main train station but some large constructions are in progress. The (oddly named) budget hotel chain 'Motel-One' operates various 2-star hotels in the city centre. There are also many 3-4 star 'NH Hotels' offering good value. All major hotel chains are present in Berlin. A good idea to check that the hotel is close to public transport (U-Bahn or S-Bahn) to avoid too long walks.
+Cheapest are youth hostels (called Jugendherbergen, only for members) and hostels (similar to youth hostels, but for everyone, mostly backpackers stay here, usually in one to 32-bed rooms). You will also find bed and breakfast offers (often private) and boarding houses (Pension, more familiar and smaller than hotels). The majority of private flats on platforms like AirBnB are offered illegally in Berlin and contribute to the ongoing housing crisis. Try to choose your accommodation responsibly!
+Check the district pages for individual accommodation listings. Popular hotel districts include:
+
+Mitte - mostly high-end hotels in the main tourist areas and some cheap hotels and hostels on the outskirts
+Charlottenburg-Wilmersdorf - the largest number of mid-range and upscale hotels can be found here, mostly grouped around the Zoologischer Garten railway station and the Ku'damm
+Prenzlauer Berg - here you will find many independent small hotels, hostels and guesthouses in the relaxed atmosphere of this district
+Friedrichshain-Kreuzberg - the centre of alternative life in Berlin offers many suitably-themed accommodation opportunities, mostly hostels and guesthouses
+You may find accommodation at reasonable prices in almost any district of Berlin, but be mindful of the time it may take to get from that place to where you want to visit, as Berlin is a very large city.
+
+## Stay safe
+Berlin might be a safe place, but it is a huge city, and as such has some not-so-well maintained areas. No specific rules apply with the exception of public transportation and tourist areas where pickpockets are a problem. Watch your bags during rush hours, at larger train stations (with the central and Warschauer stations being notoriously sketchy at night).
+The police in Berlin are competent, not corrupt; therefore, if you try to bribe them you are likely to spend at least a night behind bars to check your background. They are generally helpful to tourists. Most of the officers are able to speak English, so don't hesitate to approach them if you are frightened or lost. Police are generally more relaxed than in more conservative places like Munich and do not necessarily engage in a "zero tolerance" policy. In general police will focus on crime and traffic safety rather than petty misdemeanors or drunken tourists unless things get out of hand.
+The nationwide emergency numbers are
+
+Medical emergencies and fires, ☏ 112. 
+ Police emergency number, ☏ 110. 
+Since the 1980s, there have been localised riots on Labour Day (May 1). In general they take place in Kreuzberg around Oranienstraße/Mariannenplatz. Nowadays they usually start the night before May 1, especially in the Mauerpark (Prenzlauer Berg), at Boxhagener Platz and in Rigaer Str. (Friedrichshain) and start again in the evening of May 1 in Kreuzberg and in the mentioned areas. The violent riots have become rather small since 2005 due to the engagement of the citizens who celebrate the Labour Day with a nice "myfest" in Kreuzberg and well-planned police efforts. It is still better to stay out of these areas from 20:00 until sunrise. Vehicles should not be parked in these areas as this is asking for damage!
+Racially-motivated violence is rare but the risk is higher on the outskirts of East Berlin. It is recommended for non-white tourists to be attentive in areas such as Lichtenberg, Hellersdorf, Marzahn, Treptow and Köpenick in the evening/night especially if alone.
+In the bordering neighbourhood of the districts Neukölln and Kreuzberg (between Hermannplatz, Schönleinstraße to Kottbusser Tor) and Wedding (Moabit and Gesundbrunnen) the risk of falling victim to robberies and assaults is higher. Tourists should visit these areas with some caution during the night as a mixture of drunken party people and poor neighbourhoods might lead to trouble.
+National media and conservative politicians like to make a huge story out of certain well known drug dealing hot spots. Areas such as Görlitzer Park are well known for all sorts of illicit substances being on offer, but if you don't sell or buy this shouldn't preoccupy you. Despite media portrayals to the contrary, police do frequently raid those places and try to catch drug dealers, but only a small handful are usually caught as they have developed certain measures to evade capture. Organised crime does exist, but in general they try to focus on less violent activity in Germany and hardly ever target outsiders.
+Although harmless, panhandlers have started to beg at local tourist spots such as Pariser Platz next to the Brandenburg Gate, Alexanderplatz and the Museuminsel. They are usually women accompanied by their daughters who ask if you speak English and say that they are from the new EU countries and trying to raise money to fly home. The story is false, so don't give them money, which would encourage further exploitation of the women and their kids. They also have a new tactic where they hand you a card telling their "story" and asking for money; beware that the children that they carry in their arms will search through your bags while you are reading the card. The best way to avoid this is simply to ignore them and not to respond when they ask you "Speak English?" If you feel scared, don't hesitate to contact the police, as they will help.
+Near Checkpoint Charlie, you will see people setting up booths offering to stamp your passport with souvenir stamps in exchange for a small fee. You are highly advised not to let them stamp your passport, as these are not official government stamps and could invalidate your passport. If you want the stamps, bring along an expired passport, or a small booklet like a novelty passport.
+
+## Go next
+Some people from Berlin would ask you why you would ever want to leave, but there are a couple of nice places in close proximity—some even within reach of the Berlin S-Bahn. Outside a thin ring of suburbs (compared to most other European metropolises), Brandenburg is mostly rural so a surprisingly short drive will get you right into picturesque nature. Berliners call this area "JWD" (pronounced yott vay day), short for "janz weit draußen", that is "in the back of beyond". Brandenburg and Berlin cooperate in many facets of regional planning and the boundary between the two is not always easy to make out. Part of that cooperation is a plan to (in theory) focus development along a "star-shaped" net of rail lines heading towards Berlin.
+The motorway Raststätte Grunewald at the S-Bahn station Nikolassee is a good spot for hitching if you're heading south or west.
+
+Potsdam (35 km) — the capital of the surrounding federal state of Brandenburg, not far southwest of Berlin, and makes a perfect day trip. Especially the park of Sanssouci, a world heritage site with its great famous palaces, is worth a visit. You can get there with the S-Bahn S7 or Regional-Express RE1 to the station Potsdam Hauptbahnhof or Park Sanssouci (fare zone C). It takes about half an hour from Berlin Hauptbahnhof or Friedrichstraße.
+Oranienburg (35 km) — a quiet suburb housing the remains of KZ Sachsenhausen, one of the few preserved Nazi concentration camps on German soil. There's also a small palace in the centre of Oranienburg. Half an hour by RE train and reachable by the S1.
+Spreewald (c. 85 km) — a protected UNESCO biosphere reserve. It includes low-lying areas in which the river Spree meanders in thousands of small waterways through meadows and forests. It is a beautiful, unique landscape about one hour south of Berlin and well worth a day trip or a weekend trip to relax from the buzzing city life.
+Frankfurt an der Oder (100 km) — on the Polish border, with many international students, is within easy reach. Just over an hour by RE train (half-hourly service).
+Lutherstadt Wittenberg (110 km) — about 40 minutes southwest of Berlin by ICE. Schlosskirche was the church where Martin Luther nailed his theses to the church door, starting the Protestant Reformation. Across the street from there is a visitor's centre with great information. Great city to tour and one can easily explore on foot.
+Müritz Lake Region (Mecklenburgische Seenplatte; c. 145 km) — a national park to the north with a few hundred lakes. Perfect for camping and canoeing close to nature.
+'Lusatian Lake District and Central German Lake District about as far to the south as the Baltic is to the north - former lignite pits turned into artificial lakes
+The small towns of Chorin and Brodowin offer picturesque nature, farms to visit, and an old cloister with occasional concerts. 40 minutes by hourly train, plus a few km of forest paths.
+Once you've finally had your fill, make your way to another corner of Germany:

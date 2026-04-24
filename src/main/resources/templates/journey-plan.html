@@ -1,0 +1,181 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Voyu | 旅程结果</title>
+</head>
+<body>
+<main class="page-shell">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Journey Result</p>
+            <h1 th:text="${requestSnapshot.destination != null ? requestSnapshot.destination + ' 旅行规划结果' : 'Voyu 旅行规划结果'}"></h1>
+            <p class="section-note">结果页按设计文档中的核心协议回放会话内容：任务书、工具结果、知识依据与最终方案。</p>
+        </div>
+        <div class="header-actions">
+            <span class="status-badge" th:classappend="' ' + ${statusTone}" th:text="${statusLabel}"></span>
+            <a class="ghost-button" href="/travel/journey">重新规划</a>
+        </div>
+    </section>
+
+    <section class="content-grid result-grid">
+        <section class="stack-column">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Final Answer</p>
+                        <h2>整理后的旅行方案</h2>
+                    </div>
+                </div>
+                <article class="markdown-body" th:if="${!finalAnswerHtml.isEmpty()}" th:utext="${finalAnswerHtml}"></article>
+                <pre class="plain-answer" th:if="${finalAnswerHtml.isEmpty()}" th:text="${finalAnswerText}"></pre>
+            </section>
+
+            <section class="section-card" th:if="${!insights.isEmpty()}">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Execution Insights</p>
+                        <h2>工具执行洞察</h2>
+                    </div>
+                </div>
+                <div class="insight-grid">
+                    <article class="insight-card" th:each="card : ${insights}">
+                        <h3 th:text="${card.title}"></h3>
+                        <p th:text="${card.summary}"></p>
+                        <ul class="detail-list">
+                            <li th:each="item : ${card.items}" th:text="${item}"></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section-card" th:if="${!knowledgeHits.isEmpty()}">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Grounding</p>
+                        <h2>知识依据</h2>
+                    </div>
+                </div>
+                <div class="knowledge-list">
+                    <article class="knowledge-card" th:each="hit : ${knowledgeHits}">
+                        <div class="card-topline">
+                            <strong th:text="${hit.title}"></strong>
+                            <span th:text="${hit.source}"></span>
+                        </div>
+                        <div class="mini-meta">
+                            <span th:text="${hit.destination}"></span>
+                            <span th:text="'score: ' + ${hit.score}"></span>
+                        </div>
+                        <p th:text="${hit.content}"></p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Timeline</p>
+                        <h2>事件时间线</h2>
+                    </div>
+                </div>
+                <div class="timeline-list">
+                    <article class="timeline-item" th:each="event : ${timeline}">
+                        <div class="timeline-head">
+                            <div>
+                                <strong th:text="${event.label}"></strong>
+                                <p th:text="${event.summary}"></p>
+                            </div>
+                            <span class="status-badge" th:classappend="' ' + ${event.tone}" th:text="${event.time}"></span>
+                        </div>
+                        <details class="raw-details">
+                            <summary>查看原始事件数据</summary>
+                            <pre th:text="${event.payloadJson}"></pre>
+                        </details>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <aside class="stack-column">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Journey Meta</p>
+                        <h2>会话概览</h2>
+                    </div>
+                </div>
+                <div class="meta-list">
+                    <div class="meta-row">
+                        <span>Session ID</span>
+                        <strong th:text="${sessionId}"></strong>
+                    </div>
+                    <div class="meta-row">
+                        <span>最近更新时间</span>
+                        <strong th:text="${updatedAtText}"></strong>
+                    </div>
+                    <div class="meta-row">
+                        <span>完成时间</span>
+                        <strong th:text="${completedAtText}"></strong>
+                    </div>
+                </div>
+                <div class="meta-list" th:if="${!briefSummary.isEmpty()}">
+                    <div class="meta-row" th:each="item : ${briefSummary}">
+                        <span th:text="${item.label}"></span>
+                        <strong th:text="${item.value}"></strong>
+                    </div>
+                </div>
+                <div class="request-message" th:text="${requestSnapshot.message}"></div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Planner Strategy</p>
+                        <h2>规划策略</h2>
+                    </div>
+                </div>
+                <p class="lead-text" th:text="${planThought}"></p>
+                <div class="inline-note" th:text="${mission}"></div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Task Book</p>
+                        <h2>结构化任务书</h2>
+                    </div>
+                </div>
+                <div class="task-list" th:if="${!tasks.isEmpty()}">
+                    <article class="task-card" th:each="task : ${tasks}">
+                        <div class="card-topline">
+                            <strong th:text="${task.name}"></strong>
+                            <span class="status-badge" th:classappend="' ' + ${task.statusTone}" th:text="${task.statusLabel}"></span>
+                        </div>
+                        <p th:text="${task.objective}"></p>
+                        <div class="mini-meta">
+                            <span th:text="${task.toolLabel}"></span>
+                            <span th:text="'分组：' + ${task.parallelGroup}"></span>
+                            <span th:text="'依赖：' + ${task.dependsOnText}"></span>
+                        </div>
+                        <div class="inline-note" th:text="${task.inputPreview}"></div>
+                    </article>
+                </div>
+                <div class="empty-block" th:if="${tasks.isEmpty()}">当前会话没有可展示的任务书。</div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Warnings</p>
+                        <h2>风险与告警</h2>
+                    </div>
+                </div>
+                <ul class="warning-list" th:if="${!warnings.isEmpty()}">
+                    <li th:each="warning : ${warnings}" th:text="${warning.message}"></li>
+                </ul>
+                <div class="empty-block" th:if="${warnings.isEmpty()}">当前会话没有记录到额外告警。</div>
+            </section>
+        </aside>
+    </section>
+</main>
+</body>
+</html>

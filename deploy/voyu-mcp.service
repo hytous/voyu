@@ -1,0 +1,16 @@
+[Unit]
+Description=Voyu Local MCP Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/voyu
+ExecStart=/usr/bin/java -Xms128m -Xmx256m -jar /opt/voyu/app/voyu-mcp-server.jar --spring.config.additional-location=/opt/voyu/config/mcp-server/
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

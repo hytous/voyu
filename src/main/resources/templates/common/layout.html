@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Voyu</title>
+    <meta name="description" content="Voyu 智能旅游规划助手，基于 Spring AI 的 Plan-Execute 旅行规划工作流。">
+    <link rel="stylesheet" href="/voyu-journey.css">
+</head>
+<body>
+<div class="site-shell">
+    <header class="site-header">
+        <a class="brand-link" href="/travel/journey">
+            <span class="brand-mark">V</span>
+            <span>
+                <strong>Voyu</strong>
+                <small>Travel Planning Agent</small>
+            </span>
+        </a>
+        <nav class="site-nav">
+            <a href="/travel/journey">新建规划</a>
+            <a href="/api/meta" target="_blank" rel="noopener noreferrer">API Meta</a>
+        </nav>
+    </header>
+
+    <th:block th:replace="${content}"></th:block>
+</div>
+</body>
+</html>

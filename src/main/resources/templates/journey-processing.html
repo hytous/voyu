@@ -1,0 +1,113 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Voyu | 处理中</title>
+</head>
+<body>
+<main class="page-shell">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Live Process</p>
+            <h1 th:text="${travelBrief.destination != null ? '正在生成 ' + travelBrief.destination + ' 的旅行方案' : '正在生成旅行方案'}"></h1>
+            <p class="section-note">当前页面直接消费 Voyu 的 `/api/travel-agent/stream`，展示 Plan、TaskBook、Tool Call、Tool Result 与 Final Answer。</p>
+        </div>
+        <div class="header-actions">
+            <span id="streamStatus" class="status-badge busy">规划中</span>
+            <a class="ghost-button" href="/travel/journey">返回重填</a>
+            <a id="resultLink" class="primary-button is-hidden" href="#">查看结果页</a>
+        </div>
+    </section>
+
+    <section class="content-grid processing-grid">
+        <section class="stack-column">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Planner</p>
+                        <h2>规划器思路</h2>
+                    </div>
+                    <span id="missionBadge" class="status-badge muted">等待任务书</span>
+                </div>
+                <p id="planThought" class="lead-text">Voyu 正在进入 Plan-Execute 主循环。</p>
+                <div class="inline-note" id="missionText">任务书生成后，这里会显示本次旅程的 mission。</div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Task Book</p>
+                        <h2>任务书与执行状态</h2>
+                    </div>
+                </div>
+                <div id="taskList" class="task-list">
+                    <div class="empty-block">还没有任务书。</div>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Timeline</p>
+                        <h2>事件时间线</h2>
+                    </div>
+                </div>
+                <div id="timelineList" class="timeline-list">
+                    <div class="empty-block">SSE 事件到来后会按顺序显示。</div>
+                </div>
+            </section>
+        </section>
+
+        <aside class="stack-column">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Request Snapshot</p>
+                        <h2>本次旅程 brief</h2>
+                    </div>
+                </div>
+                <div class="meta-list">
+                    <div class="meta-row" th:each="item : ${briefSummary}">
+                        <span th:text="${item.label}"></span>
+                        <strong th:text="${item.value}"></strong>
+                    </div>
+                </div>
+                <div class="request-message" th:text="${travelBrief.message}"></div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Knowledge</p>
+                        <h2>知识命中</h2>
+                    </div>
+                </div>
+                <div id="knowledgeList" class="knowledge-list">
+                    <div class="empty-block">当 `rag.travel.knowledge` 返回结果时，这里会展示命中的知识片段。</div>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Final Preview</p>
+                        <h2>最终方案预览</h2>
+                    </div>
+                </div>
+                <div class="meta-row">
+                    <span>Session ID</span>
+                    <strong id="sessionIdValue">待生成</strong>
+                </div>
+                <div class="meta-row">
+                    <span>完成时间</span>
+                    <strong id="completedAtValue">-</strong>
+                </div>
+                <div id="finalPreview" class="final-preview">最终方案生成后，这里会先给出预览，你也可以跳到整理后的结果页查看。</div>
+            </section>
+        </aside>
+    </section>
+
+    <script id="voyu-request-data" type="application/json" th:text="${requestJson}"></script>
+    <script src="/journey-processing.js"></script>
+</main>
+</body>
+</html>
