@@ -128,5 +128,8 @@ management:
         include: health,info
 
 logging:
+  file:
+    path: logs
+    name: logs/voyu-agent.log
   level:
     com.voyu.agent: INFO

@@ -31,6 +31,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import com.voyu.agent.tool.ToolCapabilityType;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * 统一 ReAct 循环 Agent，参考 Claude Code 的 plan mode 设计。
@@ -52,6 +58,7 @@ public class UnifiedReActAgent {
 
     private static final Logger log = LoggerFactory.getLogger(UnifiedReActAgent.class);
     private static final String TOOL_CATALOG = "tool.catalog";
+    private static final String EXECUTOR_FINISH = "executor.finish";
 
     private final LlmFacade llmFacade;
     private final ObjectMapper objectMapper;
@@ -59,8 +66,11 @@ public class UnifiedReActAgent {
     private final ToolInputNormalizer toolInputNormalizer;
     private final ToolResultInterpreter toolResultInterpreter;
     private final PlanFileService planFileService;
+    private final Executor executor;
     private final int maxReactSteps;
     private final int stepReminderInterval;
+    private final int maxTaskAttempts;
+    private final int maxParallelTools;
 
     public UnifiedReActAgent(LlmFacade llmFacade,
                              ObjectMapper objectMapper,
@@ -68,16 +78,22 @@ public class UnifiedReActAgent {
                              ToolInputNormalizer toolInputNormalizer,
                              ToolResultInterpreter toolResultInterpreter,
                              PlanFileService planFileService,
+                             @Qualifier("agentExecutor") Executor executor,
                              @Value("${voyu.agent.max-react-steps:20}") int maxReactSteps,
-                             @Value("${voyu.agent.step-reminder-interval:5}") int stepReminderInterval) {
+                             @Value("${voyu.agent.step-reminder-interval:5}") int stepReminderInterval,
+                             @Value("${voyu.agent.max-task-attempts:3}") int maxTaskAttempts,
+                             @Value("${voyu.agent.max-parallel-tools:5}") int maxParallelTools) {
         this.llmFacade = llmFacade;
         this.objectMapper = objectMapper;
         this.toolRegistry = toolRegistry;
         this.toolInputNormalizer = toolInputNormalizer;
         this.toolResultInterpreter = toolResultInterpreter;
         this.planFileService = planFileService;
+        this.executor = executor;
         this.maxReactSteps = maxReactSteps;
         this.stepReminderInterval = Math.max(stepReminderInterval, 2);
+        this.maxTaskAttempts = maxTaskAttempts;
+        this.maxParallelTools = Math.max(maxParallelTools, 1);
     }
 
     @PostConstruct
@@ -194,13 +210,18 @@ public class UnifiedReActAgent {
                     // 切换到 EXECUTE 模式
                     state.setAgentMode(AgentMode.EXECUTE);
                     state.setJustExitedPlan(true);
+                    
                     publishSafely(publisher, state, AgentEventType.MODE_SWITCH, payload(
                             "phase", "REACT",
                             "from", "PLAN",
                             "to", "EXECUTE",
                             "step", step,
-                            "message", "规划完成，进入执行模式。"
+                            "message", "已退出规划模式，系统开始根据任务书并行并批量收集数据。"
                     ));
+
+                    // 自动并行执行 TaskBook
+                    List<TaskExecutionResult> completed = executeTaskBook(taskBook, state, publisher);
+                    state.getExecutionResults().addAll(completed);
 
                     scratchpad.add("""
                             Step %s [PLAN → EXECUTE]
@@ -208,8 +229,11 @@ public class UnifiedReActAgent {
                             Action: FINISH_PLAN
                             Plan: %s
                             Tasks: %s
+                            系统自动批处理执行摘要:
+                            %s
                             """.formatted(step, decision.thought(), taskBook.getMission(),
-                            taskLines.stream().collect(Collectors.joining(", "))));
+                            taskLines.stream().collect(Collectors.joining(", ")),
+                            formatExecutionHistory(completed)));
                 }
 
                 case "FINISH" -> {
@@ -365,18 +389,16 @@ public class UnifiedReActAgent {
                 你是旅游规划助手，当前处于 **EXECUTE 模式**（执行模式）。
 
                 ## 你在 EXECUTE 模式下的职责
-                你正在根据 PLAN 阶段制定的任务书，逐项调用工具收集事实，最后综合所有工具返回的真实数据生成旅游规划方案。
+                任务书中的初始工具调用可能已经被系统自动并发执行完毕（请看上下文中的执行记录），现在请根据上下文中返回的数据，综合生成旅游规划方案。
 
                 ## 执行流程
-                1. 查看任务书中还有哪些工具未执行（参考 Scratchpad 和已成功覆盖工具列表）
-                2. 逐项 CALL_TOOL 执行任务书中的工具（一次选一个）
-                3. 如果工具调用失败，可以调整参数重试或跳过继续下一个
-                4. 如果所有工具执行后仍缺少关键信息，可以补充调用额外工具
-                5. 当所有必要数据收集完毕后，选择 FINISH 综合所有工具结果输出最终方案
+                1. 检查自动执行的工具结果（如果有的话）是否已足以回答用户需求。
+                2. 如果某些工具调用失败、缺少关键信息，或需要根据初步结果进行更深入的查询，你可以使用 CALL_TOOL 调用单个工具补充数据。
+                3. 当所有必要数据收集完毕后，选择 FINISH 综合所有工具结果输出最终方案。
 
                 ## 重要：不要过早 FINISH
-                - 必须先执行任务书中的工具（至少尝试调用每个工具一次），然后才能 FINISH
-                - 只有在对已收集的数据有足够信心时才选择 FINISH
+                - 如果发现关键事实缺失，任务返回结果不够详细，务必补充调用 CALL_TOOL 进行查找或重试
+                - 只有对已收集的数据有充足信心时才选择 FINISH
 
                 ## 可用动作
                 1. **CALL_TOOL** — 调用一个工具并获取结果
@@ -384,7 +406,7 @@ public class UnifiedReActAgent {
 
                 ## 输出 JSON 格式（直接输出 JSON，不要输出 markdown 包裹或解释文字）
                 {
-                  "thought": "当前要执行任务书中的哪个工具、为什么",
+                  "thought": "当前评估已收集数据是否足够，判断是否要补充工具，或生成最终回复",
                   "action": {
                     "type": "CALL_TOOL 或 FINISH",
                     "toolName": "工具名称（CALL_TOOL 时）",
@@ -460,19 +482,7 @@ public class UnifiedReActAgent {
      * 参考 Claude Code：退出 plan 模式后注入任务书和执行指引。
      */
     private void injectPlanTransitionContext(ConversationState state, AgentEventPublisher publisher, List<String> scratchpad) {
-        String planContent = planFileService.readPlanFile(state.getSessionId());
-        String transitionMessage;
-        if (planContent.isBlank()) {
-            transitionMessage = "已退出规划模式，进入执行模式。请根据用户需求直接执行工具并生成最终方案。";
-        } else {
-            transitionMessage = """
-                    已退出规划模式，进入执行模式。以下是规划阶段产出的任务书，请按照计划逐项执行：
-
-                    %s
-
-                    现在请开始按计划执行工具调用，收集完全部事实后生成最终旅游规划方案。
-                    """.formatted(clip(planContent, 2000));
-        }
+        String transitionMessage = "已退出规划模式，系统已尝试按任务书自动并发拉取数据。现在请检查上下文执行结果，如需补充数据请使用 CALL_TOOL，否则可以直接使用 FINISH 总结方案。";
 
         publishSafely(publisher, state, AgentEventType.THOUGHT, payload(
                 "phase", "REACT",
@@ -483,7 +493,7 @@ public class UnifiedReActAgent {
 
         scratchpad.add("""
                 [模式切换 PLAN → EXECUTE]
-                任务书已加载，开始按计划执行工具调用。
+                系统刚刚尝试了自动批量执行计划内的最初工具调用。
                 """);
     }
 
@@ -1109,6 +1119,288 @@ public class UnifiedReActAgent {
         } catch (Exception ignored) {
             return fallback;
         }
+    }
+
+    // ======== 自动化批处理与并行执行方法 ========
+
+    public List<TaskExecutionResult> executeTaskBook(TaskBook taskBook, ConversationState state, AgentEventPublisher publisher) {
+        List<TaskExecutionResult> completed = new ArrayList<>();
+        List<TaskBatch> batches = resolveBatches(taskBook);
+
+        for (TaskBatch batch : batches) {
+            boolean parallelBatch = "PARALLEL".equalsIgnoreCase(batch.executionMode());
+            publishSafely(publisher, state, AgentEventType.THOUGHT, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batch.batchIndex(),
+                    "executionMode", batch.executionMode(),
+                    "message", describeBatchStart(batch)
+            ));
+
+            if (!parallelBatch) {
+                for (TaskItem task : batch.tasks()) {
+                    completed.add(runTaskWithRetries(task, state, publisher, batch.batchIndex(), "SERIAL"));
+                }
+                continue;
+            }
+
+            List<CompletableFuture<TaskExecutionResult>> futures = batch.tasks().stream()
+                    .map(task -> CompletableFuture.supplyAsync(
+                            () -> runTaskWithRetries(task, state, publisher, batch.batchIndex(), batch.executionMode()),
+                            executor))
+                    .toList();
+            completed.addAll(futures.stream().map(CompletableFuture::join).toList());
+        }
+
+        return completed;
+    }
+
+    private List<TaskBatch> resolveBatches(TaskBook taskBook) {
+        List<TaskBatch> batches = new ArrayList<>();
+        Map<Integer, List<TaskItem>> grouped = new LinkedHashMap<>();
+        for (TaskItem task : taskBook.getTasks()) {
+            grouped.computeIfAbsent(Math.max(task.getBatchIndex(), 1), ignored -> new ArrayList<>()).add(task);
+        }
+
+        grouped.forEach((batchIndex, tasks) -> splitBatch(batchIndex, tasks, batches));
+        return batches;
+    }
+
+    private void splitBatch(int batchIndex, List<TaskItem> tasks, List<TaskBatch> result) {
+        List<TaskItem> parallelWindow = new ArrayList<>();
+        for (TaskItem task : tasks) {
+            if (isParallelizable(task)) {
+                parallelWindow.add(task);
+                if (parallelWindow.size() >= maxParallelTools) {
+                    flushParallelWindow(batchIndex, parallelWindow, result);
+                }
+                continue;
+            }
+            flushParallelWindow(batchIndex, parallelWindow, result);
+            result.add(new TaskBatch(batchIndex, "SERIAL", List.of(task)));
+        }
+        flushParallelWindow(batchIndex, parallelWindow, result);
+    }
+
+    private void flushParallelWindow(int batchIndex, List<TaskItem> parallelWindow, List<TaskBatch> result) {
+        if (parallelWindow.isEmpty()) {
+            return;
+        }
+        if (parallelWindow.size() == 1) {
+            result.add(new TaskBatch(batchIndex, "SERIAL", List.of(parallelWindow.get(0))));
+        } else {
+            result.add(new TaskBatch(batchIndex, "PARALLEL", List.copyOf(parallelWindow)));
+        }
+        parallelWindow.clear();
+    }
+
+    private boolean isParallelizable(TaskItem task) {
+        return toolRegistry.hasTool(task.getToolName()) && toolRegistry.isParallelizable(task.getToolName());
+    }
+
+    private String describeBatchStart(TaskBatch batch) {
+        if ("PARALLEL".equalsIgnoreCase(batch.executionMode())) {
+            return "系统开始并行处理第 %s 批预排任务，当前并行窗口共 %s 个任务（上限 %s）。"
+                    .formatted(batch.batchIndex(), batch.tasks().size(), maxParallelTools);
+        }
+        if (batch.tasks().size() == 1 && isParallelizable(batch.tasks().get(0))) {
+            return "第 %s 批当前窗口只有 1 个可并行工具，转为单点执行。".formatted(batch.batchIndex());
+        }
+        return "系统开始串行处理第 %s 批预排任务。".formatted(batch.batchIndex());
+    }
+
+    private TaskExecutionResult runTaskWithRetries(TaskItem task, ConversationState state,
+                                                   AgentEventPublisher publisher, int batchIndex, String executionMode) {
+        if (!toolRegistry.hasTool(task.getToolName())) {
+            publishTaskStatus(publisher, state, task, batchIndex, executionMode, 1, "FAILED");
+            publishSafely(publisher, state, AgentEventType.WARNING, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batchIndex,
+                    "attempt", 1,
+                    "taskId", task.getTaskId(),
+                    "taskName", task.getName(),
+                    "message", "任务请求了未注册工具: " + task.getToolName()
+            ));
+            return new TaskExecutionResult(task.getTaskId(), task.getName(), task.getToolName(), false,
+                    "工具目录校验失败。", "未找到对应本地工具。", state.getCurrentRound(), batchIndex, executionMode, 1);
+        }
+
+        TravelTool tool = toolRegistry.get(task.getToolName());
+        ToolTemplate template = tool.template();
+        Map<String, Object> baseInput = toolInputNormalizer.normalize(task, state);
+        Map<String, Object> currentInput = new LinkedHashMap<>(baseInput);
+        String lastThought = "";
+        String lastObservation = "";
+
+        for (int attempt = 1; attempt <= maxTaskAttempts; attempt++) {
+            publishTaskStatus(publisher, state, task, batchIndex, executionMode, attempt, "RUNNING");
+
+            lastThought = "批量执行工具在第 %s 批的第 %s 次尝试中调用 %s 完成任务 [%s]。"
+                    .formatted(batchIndex, attempt, tool.name(), task.getName());
+            publishSafely(publisher, state, AgentEventType.THOUGHT, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batchIndex,
+                    "attempt", attempt,
+                    "executionMode", executionMode,
+                    "taskId", task.getTaskId(),
+                    "taskName", task.getName(),
+                    "step", attempt,
+                    "message", lastThought
+            ));
+
+            publishSafely(publisher, state, AgentEventType.TOOL_CALL, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batchIndex,
+                    "attempt", attempt,
+                    "executionMode", executionMode,
+                    "taskId", task.getTaskId(),
+                    "taskName", task.getName(),
+                    "toolName", tool.name(),
+                    "arguments", currentInput,
+                    "input", currentInput
+            ));
+
+            Map<String, Object> rawResult;
+            try {
+                rawResult = tool.execute(currentInput);
+            } catch (Exception ex) {
+                rawResult = Map.of("error", String.valueOf(ex.getMessage()));
+            }
+
+            if ("memory.rag.clear".equals(tool.name()) && !rawResult.containsKey("error")) {
+                state.setMemorySnapshot(clearedRagSnapshot(state.getMemorySnapshot()));
+            }
+
+            publishSafely(publisher, state, AgentEventType.TOOL_RESULT, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batchIndex,
+                    "attempt", attempt,
+                    "executionMode", executionMode,
+                    "taskId", task.getTaskId(),
+                    "taskName", task.getName(),
+                    "toolName", tool.name(),
+                    "result", rawResult
+            ));
+
+            lastObservation = toolResultInterpreter.buildObservation(template, rawResult);
+            boolean usable = toolResultInterpreter.isUsable(template, rawResult);
+            publishSafely(publisher, state, AgentEventType.THOUGHT, payload(
+                    "phase", "EXECUTE",
+                    "taskOrigin", "EXECUTOR",
+                    "round", state.getCurrentRound(),
+                    "batchIndex", batchIndex,
+                    "attempt", attempt,
+                    "executionMode", executionMode,
+                    "taskId", task.getTaskId(),
+                    "taskName", task.getName(),
+                    "message", usable
+                            ? "当前任务结果基本就绪，结束批量重试循环。"
+                            : "当前任务结果仍不充分，调整参数继续尝试..."
+            ));
+
+            if (usable) {
+                publishSafely(publisher, state, AgentEventType.TOOL_CALL, payload(
+                        "phase", "EXECUTE",
+                        "taskOrigin", "EXECUTOR",
+                        "round", state.getCurrentRound(),
+                        "batchIndex", batchIndex,
+                        "attempt", attempt,
+                        "executionMode", executionMode,
+                        "taskId", task.getTaskId(),
+                        "taskName", task.getName(),
+                        "toolName", EXECUTOR_FINISH,
+                        "arguments", Map.of("taskId", task.getTaskId(), "attempt", attempt, "reason", "自动化取数阶段完毕可用"),
+                        "input", Map.of("taskId", task.getTaskId(), "attempt", attempt, "reason", "自动化取数阶段完毕可用")
+                ));
+                publishTaskStatus(publisher, state, task, batchIndex, executionMode, attempt, "DONE");
+                return new TaskExecutionResult(task.getTaskId(), task.getName(), tool.name(), true,
+                        lastThought, lastObservation, state.getCurrentRound(), batchIndex, executionMode, attempt);
+            }
+
+            if (attempt < maxTaskAttempts) {
+                currentInput = refineInput(task, template, currentInput, rawResult, attempt);
+                publishSafely(publisher, state, AgentEventType.TASK_STATUS, payload(
+                        "phase", "EXECUTE",
+                        "taskOrigin", "EXECUTOR",
+                        "round", state.getCurrentRound(),
+                        "batchIndex", batchIndex,
+                        "attempt", attempt,
+                        "nextAttempt", attempt + 1,
+                        "executionMode", executionMode,
+                        "taskId", task.getTaskId(),
+                        "taskName", task.getName(),
+                        "toolName", tool.name(),
+                        "status", "RETRYING"
+                ));
+            }
+        }
+
+        publishTaskStatus(publisher, state, task, batchIndex, executionMode, maxTaskAttempts, "FAILED");
+        return new TaskExecutionResult(task.getTaskId(), task.getName(), tool.name(), false,
+                lastThought, lastObservation, state.getCurrentRound(), batchIndex, executionMode, maxTaskAttempts);
+    }
+
+    private void publishTaskStatus(AgentEventPublisher publisher, ConversationState state, TaskItem task,
+                                   int batchIndex, String executionMode, int attempt, String status) {
+        publishSafely(publisher, state, AgentEventType.TASK_STATUS, payload(
+                "phase", "EXECUTE", "taskOrigin", "EXECUTOR", "round", state.getCurrentRound(),
+                "batchIndex", batchIndex, "attempt", attempt, "executionMode", executionMode,
+                "taskId", task.getTaskId(), "taskName", task.getName(), "toolName", task.getToolName(),
+                "status", status
+        ));
+    }
+
+    private Map<String, Object> refineInput(TaskItem task, ToolTemplate template,
+                                            Map<String, Object> currentInput, Map<String, Object> rawResult, int attempt) {
+        Map<String, Object> nextInput = new LinkedHashMap<>(currentInput);
+        nextInput.put("reactRetry", attempt);
+
+        ToolCapabilityType capabilityType = template.capabilityType();
+        if (capabilityType == ToolCapabilityType.WEATHER_LOOKUP) {
+            nextInput.putIfAbsent("dateRange", "近期");
+        }
+        if (capabilityType == ToolCapabilityType.POI_SEARCH) {
+            nextInput.putIfAbsent("keywords", task.getObjective());
+            nextInput.putIfAbsent("query", task.getObjective());
+        }
+        if (capabilityType == ToolCapabilityType.WEB_SEARCH) {
+            String fallbackQuery = Stream.of(
+                            value(nextInput.get("destination")), value(nextInput.get("preferences")), task.getObjective())
+                    .filter(item -> !item.isBlank()).collect(Collectors.joining(" "));
+            if (!fallbackQuery.isBlank()) {
+                nextInput.put("query", fallbackQuery);
+            }
+        }
+        if (capabilityType == ToolCapabilityType.RAG_RETRIEVAL) {
+            Object hits = rawResult.get("hits");
+            if (!(hits instanceof List<?> list) || list.isEmpty()) {
+                String fallbackQuery = Stream.of(
+                                value(nextInput.get("destination")), value(nextInput.get("preferences")), task.getObjective())
+                        .filter(item -> !item.isBlank()).collect(Collectors.joining(" "));
+                if (!fallbackQuery.isBlank()) {
+                    nextInput.put("query", fallbackQuery);
+                }
+            }
+        }
+        return nextInput;
+    }
+
+    private String value(Object value) {
+        if (value == null) return "未提供";
+        if (value instanceof List<?> list) return list.stream().map(this::value).collect(Collectors.joining("、"));
+        return String.valueOf(value);
+    }
+
+    private record TaskBatch(int batchIndex, String executionMode, List<TaskItem> tasks) {
     }
 
     // ======== 内部记录类 ========

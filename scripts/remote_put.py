@@ -4,7 +4,7 @@ import posixpath
 import sys
 import time
 
-sys.path.insert(0, r"E:\J\Job\AI\.vendor\paramiko")
+
 
 import paramiko
 
