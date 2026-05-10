@@ -1,0 +1,20 @@
+{
+  "title": "Tokyo 4-day food and anime trip",
+  "sessionId": "sample-session-tokyo-001",
+  "userRequest": "I want to visit Tokyo for 4 days with a 7000 budget. I like anime, street food, bookstores, and relaxed neighborhoods.",
+  "finalAnswer": "Suggested route: Day 1 Shinjuku and Harajuku, Day 2 Akihabara and Ueno, Day 3 Kichijoji and Nakano, Day 4 Asakusa and Tokyo Station. Keep one indoor option each day and reserve budget for transit, meals, and character goods.",
+  "messages": [
+    {
+      "role": "USER",
+      "content": "Please plan a 4-day Tokyo trip for anime and food."
+    },
+    {
+      "role": "ASSISTANT",
+      "content": "I will organize the itinerary around anime districts, easy food stops, and slower neighborhood time."
+    },
+    {
+      "role": "ASSISTANT",
+      "content": "Final plan includes Shinjuku, Harajuku, Akihabara, Ueno, Kichijoji, Nakano, Asakusa, and Tokyo Station."
+    }
+  ]
+}
