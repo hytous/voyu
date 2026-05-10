@@ -18,6 +18,10 @@ public class ToolInputNormalizer {
         Map<String, Object> raw = task.getInput() == null ? Map.of() : task.getInput();
         TravelChatRequest request = state.getRequest();
 
+        if ("pdf.export".equals(task.getToolName())) {
+            return normalizePdfExportInput(raw, request, state.getSessionId(), task);
+        }
+
         Map<String, Object> normalized = new LinkedHashMap<>();
         normalized.put("sessionId", state.getSessionId());
         normalized.put("userId", request.getUserId());
@@ -54,6 +58,25 @@ public class ToolInputNormalizer {
             normalized.put("query", buildFreeformQuery(normalized));
         }
 
+        return normalized.entrySet().stream()
+                .filter(entry -> isMeaningful(entry.getValue()))
+                .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+    }
+
+    private Map<String, Object> normalizePdfExportInput(Map<String, Object> raw,
+                                                        TravelChatRequest request,
+                                                        String sessionId,
+                                                        TaskItem task) {
+        String requestedSessionId = firstNonBlank(raw, null, "sessionId");
+        String requestedTitle = firstNonBlank(raw, null, "title");
+        String requestedUserRequest = firstNonBlank(raw, null, "userRequest", "request", "message", "query");
+        Map<String, Object> normalized = new LinkedHashMap<>();
+        normalized.put("sessionId", requestedSessionId == null ? sessionId : requestedSessionId);
+        normalized.put("title", requestedTitle == null ? task.getName() : requestedTitle);
+        normalized.put("userRequest", requestedUserRequest == null ? request.getMessage() : requestedUserRequest);
+        normalized.put("finalAnswer", firstNonBlank(raw, null, "finalAnswer", "answer"));
+        normalized.put("messages", raw.get("messages"));
+        normalized.put("outputDir", firstNonBlank(raw, null, "outputDir"));
         return normalized.entrySet().stream()
                 .filter(entry -> isMeaningful(entry.getValue()))
                 .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
